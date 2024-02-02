@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/app.dart';
 import 'package:cart_scope/src/constants/breakpoints.dart';
 import 'package:cart_scope/src/features/account/account_screen.dart';
 import 'package:cart_scope/src/features/orders_list/orders_list_screen.dart';
@@ -5,10 +6,13 @@ import 'package:cart_scope/src/features/sign_in/email_password_sign_in_screen.da
 import 'package:cart_scope/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/models/app_user.dart';
+import 'package:cart_scope/src/localization/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/action_text_button.dart';
 import 'package:cart_scope/src/features/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/features/home_app_bar/shopping_cart_icon.dart';
+import 'package:cart_scope/src/localization/language_constants';
+import 'package:cart_scope/src/localization/language_constants';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -33,9 +37,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text(tr(context).myShop),
         actions: const [
+          DropDownLanguageButton(),
           ShoppingCartIcon(),
+          CalendarPicker(),
           MoreMenuButton(user: user),
         ],
       );
@@ -85,4 +91,68 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60.0);
+}
+
+class CalendarPicker extends StatelessWidget {
+  const CalendarPicker({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        padding: EdgeInsets.zero,
+        onPressed: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+          await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(DateTime.now().year),
+            lastDate: DateTime(DateTime.now().year + 20),
+          );
+        },
+        icon: const Icon(Icons.calendar_month));
+  }
+}
+
+class DropDownLanguageButton extends StatelessWidget {
+  const DropDownLanguageButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Language value = Language.languageList().first;
+    return DropdownButton<Language>(
+      padding: EdgeInsets.zero,
+      underline: const SizedBox(),
+      icon: const Icon(
+        Icons.language,
+        color: Colors.white,
+      ),
+      items: Language.languageList()
+          .map(
+            (language) => DropdownMenuItem<Language>(
+              value: language,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(
+                    language.flag,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  Text(language.name)
+                ],
+              ),
+            ),
+          )
+          .toList(),
+      onChanged: (language) async {
+        if (language != null) {
+          Locale locale = await setLocale(language.languageCode);
+          CartScope.setLocale(context, locale);
+        }
+      },
+    );
+  }
 }

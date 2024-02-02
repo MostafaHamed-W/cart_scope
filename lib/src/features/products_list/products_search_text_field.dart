@@ -45,7 +45,9 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
                 : null,
           ),
           // TODO: Implement onChanged
-          onChanged: null,
+          onChanged: (value) {
+            print(value);
+          },
         );
       },
     );

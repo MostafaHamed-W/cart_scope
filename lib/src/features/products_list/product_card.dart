@@ -5,6 +5,7 @@ import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/features/product_page/product_average_rating.dart';
 import 'package:cart_scope/src/models/product.dart';
 import 'package:cart_scope/src/utils/currency_formatter.dart';
+import 'package:cart_scope/src/localization/language_constants';
 
 /// Used to show a single product inside a card.
 class ProductCard extends StatelessWidget {
@@ -43,7 +44,7 @@ class ProductCard extends StatelessWidget {
               Text(
                 product.availableQuantity <= 0
                     ? 'Out of Stock'.hardcoded
-                    : 'Quantity: ${product.availableQuantity}'.hardcoded,
+                    : '${tr(context).quantity}: ${product.availableQuantity}'.hardcoded,
                 style: Theme.of(context).textTheme.caption,
               )
             ],

@@ -31,12 +31,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_launcher_icons: "^0.13.1"
-  flutter_layout_grid: 2.0.5 
+  flutter_launcher_icons: ^0.13.1
+  flutter_layout_grid: 2.0.5
   flutter_localizations:
     sdk: flutter
   flutter_rating_bar: 4.0.1
-  intl: 0.18.1
+  intl: any
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_lints: 2.0.1
@@ -57,7 +58,7 @@ flutter_icons:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

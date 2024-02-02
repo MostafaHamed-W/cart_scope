@@ -5,6 +5,9 @@
   "@appBarTitle": {
     "description": "The title to be shown in the menu bar"
   },
+  "myShop": "My Shop",
+  "bruschettaPlate" : "Bruschetta Plate",
+  "rating": "rarings",
   "ok": "OK",
   "anErrorOccurred": "An error occurred",
   "orders": "Orders",

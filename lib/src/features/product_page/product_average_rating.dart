@@ -1,6 +1,10 @@
+import 'package:cart_scope/src/localization/language_constants';
+
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/models/product.dart';
+
+import 'package:intl/intl.dart';
 
 /// Shows the product average rating score and the number of ratings
 class ProductAverageRating extends StatelessWidget {
@@ -9,6 +13,8 @@ class ProductAverageRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NumberFormat formatter = NumberFormat();
+
     return Row(
       children: [
         const Icon(
@@ -22,7 +28,9 @@ class ProductAverageRating extends StatelessWidget {
         ),
         gapW8,
         Text(
-          product.numRatings == 1 ? '1 rating' : '${product.numRatings} ratings',
+          product.numRatings == 1
+              ? '1 rating'
+              : '${NumberFormat.decimalPattern('ar').format(product.numRatings)} ${tr(context).rating}',
           style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
