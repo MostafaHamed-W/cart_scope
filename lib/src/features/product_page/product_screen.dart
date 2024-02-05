@@ -33,7 +33,7 @@ class ProductScreen extends StatelessWidget {
         avgRating: 4.5,
         numRatings: 2,
       ),
-      Product(
+      const Product(
         id: '2',
         imageUrl: 'assets/products/mozzarella-plate.jpg',
         title: 'Mozzarella plate',
@@ -43,7 +43,7 @@ class ProductScreen extends StatelessWidget {
         avgRating: 4,
         numRatings: 2,
       ),
-      Product(
+      const Product(
         id: '3',
         imageUrl: 'assets/products/pasta-plate.jpg',
         title: 'Pasta plate',
@@ -53,7 +53,7 @@ class ProductScreen extends StatelessWidget {
         avgRating: 5,
         numRatings: 2,
       ),
-      Product(
+      const Product(
         id: '4',
         imageUrl: 'assets/products/piggy-blue.jpg',
         title: 'Piggy Bank Blue',
@@ -61,7 +61,7 @@ class ProductScreen extends StatelessWidget {
         price: 12,
         availableQuantity: 5,
       ),
-      Product(
+      const Product(
         id: '5',
         imageUrl: 'assets/products/piggy-green.jpg',
         title: 'Piggy Bank Green',
@@ -69,7 +69,7 @@ class ProductScreen extends StatelessWidget {
         price: 12,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '6',
         imageUrl: 'assets/products/piggy-pink.jpg',
         title: 'Piggy Bank Pink',
@@ -77,7 +77,7 @@ class ProductScreen extends StatelessWidget {
         price: 12,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '7',
         imageUrl: 'assets/products/pizza-plate.jpg',
         title: 'Pizza plate',
@@ -85,7 +85,7 @@ class ProductScreen extends StatelessWidget {
         price: 18,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '8',
         imageUrl: 'assets/products/plate-and-bowl.jpg',
         title: 'Plate and Bowl',
@@ -93,7 +93,7 @@ class ProductScreen extends StatelessWidget {
         price: 21,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '9',
         imageUrl: 'assets/products/salt-pepper-lemon.jpg',
         title: 'Salt and pepper lemon',
@@ -101,7 +101,7 @@ class ProductScreen extends StatelessWidget {
         price: 11,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '10',
         imageUrl: 'assets/products/salt-pepper-olives.jpg',
         title: 'Salt and pepper olives',
@@ -109,7 +109,7 @@ class ProductScreen extends StatelessWidget {
         price: 11,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '11',
         imageUrl: 'assets/products/snacks-plate.jpg',
         title: 'Snacks plate',
@@ -117,7 +117,7 @@ class ProductScreen extends StatelessWidget {
         price: 24,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '12',
         imageUrl: 'assets/products/flowers-plate.jpg',
         title: 'Flowers plate',
@@ -125,7 +125,7 @@ class ProductScreen extends StatelessWidget {
         price: 22,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '13',
         imageUrl: 'assets/products/juicer-citrus-fruits.jpg',
         title: 'Juicer for citrus fruits',
@@ -133,7 +133,7 @@ class ProductScreen extends StatelessWidget {
         price: 14,
         availableQuantity: 10,
       ),
-      Product(
+      const Product(
         id: '14',
         imageUrl: 'assets/products/honey-pot.jpg',
         title: 'Honey pot',
