@@ -13,6 +13,7 @@ import 'package:cart_scope/src/features/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/features/home_app_bar/shopping_cart_icon.dart';
 import 'package:cart_scope/src/localization/language_constants';
 import 'package:cart_scope/src/localization/language_constants';
+import 'package:go_router/go_router.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -52,15 +53,16 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           const ShoppingCartIcon(),
           if (user != null) ...[
             ActionTextButton(
-              key: MoreMenuButton.ordersKey,
-              text: 'Orders'.hardcoded,
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const OrdersListScreen(),
+                key: MoreMenuButton.ordersKey,
+                text: 'Orders'.hardcoded,
+                onPressed: () => context.go('/OrdersListScreen')
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     fullscreenDialog: true,
+                //     builder: (_) => const OrdersListScreen(),
+                //   ),
+                // ),
                 ),
-              ),
-            ),
             ActionTextButton(
               key: MoreMenuButton.accountKey,
               text: 'Account'.hardcoded,
