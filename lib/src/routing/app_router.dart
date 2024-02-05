@@ -7,6 +7,13 @@ import 'package:cart_scope/src/features/sign_in/email_password_sign_in_state.dar
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+enum AppRoute {
+  cart,
+  orders,
+  account,
+  signIn,
+}
+
 final goRouter = GoRouter(
   // initialLocation: '/', // it's "/" by default but we can change it
   debugLogDiagnostics: true,

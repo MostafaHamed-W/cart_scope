@@ -3,6 +3,7 @@ import 'package:cart_scope/src/features/orders_list/orders_list_screen.dart';
 import 'package:cart_scope/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/models/app_user.dart';
 import 'package:go_router/go_router.dart';
@@ -54,13 +55,13 @@ class MoreMenuButton extends StatelessWidget {
         // push to different routes based on selected option
         switch (option) {
           case PopupMenuOption.signIn:
-            context.go('/signIn');
+            context.goNamed(AppRoute.signIn.name);
             break;
           case PopupMenuOption.orders:
-            context.go('/orders');
+            context.goNamed(AppRoute.orders.name);
             break;
           case PopupMenuOption.account:
-            context.go('/account');
+            context.goNamed(AppRoute.account.name);
             break;
         }
       },
