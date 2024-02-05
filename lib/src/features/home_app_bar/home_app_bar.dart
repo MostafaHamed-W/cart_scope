@@ -53,39 +53,21 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           const ShoppingCartIcon(),
           if (user != null) ...[
             ActionTextButton(
-                key: MoreMenuButton.ordersKey,
-                text: 'Orders'.hardcoded,
-                onPressed: () => context.go('/OrdersListScreen')
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     fullscreenDialog: true,
-                //     builder: (_) => const OrdersListScreen(),
-                //   ),
-                // ),
-                ),
+              key: MoreMenuButton.ordersKey,
+              text: 'Orders'.hardcoded,
+              onPressed: () => context.go('/orders'),
+            ),
             ActionTextButton(
               key: MoreMenuButton.accountKey,
               text: 'Account'.hardcoded,
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const AccountScreen(),
-                ),
-              ),
+              onPressed: () => context.go('/account'),
             ),
           ] else
             ActionTextButton(
               key: MoreMenuButton.signInKey,
               text: 'Sign In'.hardcoded,
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const EmailPasswordSignInScreen(
-                    formType: EmailPasswordSignInFormType.signIn,
-                  ),
-                ),
-              ),
-            )
+              onPressed: () => context.go('signIn'),
+            ),
         ],
       );
     }
