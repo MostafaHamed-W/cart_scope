@@ -1,7 +1,9 @@
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
+import 'package:go_router/go_router.dart';
 
 /// Placeholder widget showing a message and CTA to go back to the home screen.
 class EmptyPlaceholderWidget extends StatelessWidget {
@@ -24,10 +26,11 @@ class EmptyPlaceholderWidget extends StatelessWidget {
             ),
             gapH32,
             PrimaryButton(
-              onPressed: () =>
-                  // * Pop all routes in the navigation stack until the home
-                  // * screen is reached.
-                  Navigator.of(context).popUntil((route) => route.isFirst),
+              onPressed: () => context.goNamed(AppRoute.home.name),
+
+              // * Pop all routes in the navigation stack until the home
+              // * screen is reached.
+              // Navigator.of(context).popUntil((route) => route.isFirst),
               text: 'Go Home'.hardcoded,
             )
           ],
