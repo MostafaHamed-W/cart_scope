@@ -1,9 +1,5 @@
 import 'package:cart_scope/src/app.dart';
 import 'package:cart_scope/src/constants/breakpoints.dart';
-import 'package:cart_scope/src/features/account/account_screen.dart';
-import 'package:cart_scope/src/features/orders_list/orders_list_screen.dart';
-import 'package:cart_scope/src/features/sign_in/email_password_sign_in_screen.dart';
-import 'package:cart_scope/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/models/app_user.dart';
 import 'package:cart_scope/src/localization/languages.dart';
@@ -12,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/action_text_button.dart';
 import 'package:cart_scope/src/features/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/features/home_app_bar/shopping_cart_icon.dart';
-import 'package:cart_scope/src/localization/language_constants';
 import 'package:cart_scope/src/localization/language_constants';
 import 'package:go_router/go_router.dart';
 

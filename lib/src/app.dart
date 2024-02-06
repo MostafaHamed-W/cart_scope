@@ -1,12 +1,8 @@
-import 'package:cart_scope/src/features/account/account_screen.dart';
-import 'package:cart_scope/src/features/orders_list/orders_list_screen.dart';
-import 'package:cart_scope/src/features/products_list/products_list_screen.dart';
 import 'package:cart_scope/src/localization/language_constants';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 class CartScope extends StatefulWidget {
   const CartScope({super.key});
