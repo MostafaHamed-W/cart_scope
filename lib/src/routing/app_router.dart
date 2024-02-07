@@ -15,7 +15,7 @@ enum AppRoute { product, home, cart, orders, account, signIn, review, checkOut }
 
 final goRouter = GoRouter(
   // initialLocation: '/', // it's "/" by default but we can change it
-  debugLogDiagnostics: true,
+  debugLogDiagnostics: false,
   routes: [
     GoRoute(
       path: '/',
