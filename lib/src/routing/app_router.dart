@@ -1,20 +1,29 @@
-import 'package:cart_scope/src/features/account/account_screen.dart';
-import 'package:cart_scope/src/features/checkout/checkout_screen.dart';
-import 'package:cart_scope/src/features/leave_review_page/leave_review_screen.dart';
-import 'package:cart_scope/src/features/not_found/not_found_screen.dart';
-import 'package:cart_scope/src/features/orders_list/orders_list_screen.dart';
-import 'package:cart_scope/src/features/product_page/product_screen.dart';
-import 'package:cart_scope/src/features/products_list/products_list_screen.dart';
-import 'package:cart_scope/src/features/shopping_cart/shopping_cart_screen.dart';
-import 'package:cart_scope/src/features/sign_in/email_password_sign_in_screen.dart';
-import 'package:cart_scope/src/features/sign_in/email_password_sign_in_state.dart';
+import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import 'package:cart_scope/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
+import 'package:cart_scope/src/features/orders/presentation/orders_list/orders_list_screen.dart';
+import 'package:cart_scope/src/features/products/presentation/product_screen/product_screen.dart';
+import 'package:cart_scope/src/features/products/presentation/products_list/products_list_screen.dart';
+import 'package:cart_scope/src/features/reviews/presentation/leave_review_screen/leave_review_screen.dart';
+import 'package:cart_scope/src/routing/not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-enum AppRoute { product, home, cart, orders, account, signIn, review, checkOut }
+enum AppRoute {
+  home,
+  product,
+  leaveReview,
+  cart,
+  checkout,
+  orders,
+  account,
+  signIn,
+}
 
 final goRouter = GoRouter(
-  // initialLocation: '/', // it's "/" by default but we can change it
+  initialLocation: '/',
   debugLogDiagnostics: false,
   routes: [
     GoRoute(
@@ -25,52 +34,45 @@ final goRouter = GoRouter(
         GoRoute(
           path: 'product/:id',
           name: AppRoute.product.name,
-          pageBuilder: (context, state) {
+          builder: (context, state) {
             final productId = state.pathParameters['id']!;
-            return MaterialPage(
-              key: state.pageKey,
-              fullscreenDialog: true,
-              child: ProductScreen(productId: productId),
-            );
+            return ProductScreen(productId: productId);
           },
           routes: [
             GoRoute(
               path: 'review',
-              name: AppRoute.review.name,
+              name: AppRoute.leaveReview.name,
               pageBuilder: (context, state) {
                 final productId = state.pathParameters['id']!;
                 return MaterialPage(
                   key: state.pageKey,
                   fullscreenDialog: true,
-                  child: LeaveReviewScreen(
-                    productId: productId,
-                  ),
+                  child: LeaveReviewScreen(productId: productId),
                 );
               },
-            )
+            ),
           ],
         ),
         GoRoute(
-            path: 'cart',
-            name: AppRoute.cart.name,
-            pageBuilder: (context, state) => MaterialPage(
-                  key: state.pageKey,
-                  fullscreenDialog: true,
-                  child: const ShoppingCartScreen(),
-                ),
-            routes: [
-              GoRoute(
-                path: 'checkOut',
-                name: AppRoute.checkOut.name,
-                pageBuilder: (context, state) {
-                  return MaterialPage(
-                    key: state.pageKey,
-                    fullscreenDialog: true,
-                    child: const CheckoutScreen(),
-                  );
-                },
-              )
-            ]),
+          path: 'cart',
+          name: AppRoute.cart.name,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            fullscreenDialog: true,
+            child: const ShoppingCartScreen(),
+          ),
+          routes: [
+            GoRoute(
+              path: 'checkout',
+              name: AppRoute.checkout.name,
+              pageBuilder: (context, state) => MaterialPage(
+                key: state.pageKey,
+                fullscreenDialog: true,
+                child: const CheckoutScreen(),
+              ),
+            ),
+          ],
+        ),
         GoRoute(
           path: 'orders',
           name: AppRoute.orders.name,
