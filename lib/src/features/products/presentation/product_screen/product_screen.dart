@@ -14,6 +14,7 @@ import 'package:cart_scope/src/common_widgets/responsive_center.dart';
 import 'package:cart_scope/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Shows the product page for a given product ID.
 class ProductScreen extends StatelessWidget {
@@ -22,24 +23,25 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Read from data source
-    final product = FakeProductRepository.instance.getProduct(productId);
     return Scaffold(
-      appBar: const HomeAppBar(),
-      body: product == null
-          ? EmptyPlaceholderWidget(
-              message: 'Product not found'.hardcoded,
-            )
-          : CustomScrollView(
-              slivers: [
-                ResponsiveSliverCenter(
-                  padding: const EdgeInsets.all(Sizes.p16),
-                  child: ProductDetails(product: product),
-                ),
-                ProductReviewsList(productId: productId),
-              ],
-            ),
-    );
+        appBar: const HomeAppBar(),
+        body: Consumer(builder: (context, ref, child) {
+          final productsRepository = ref.watch(productRepositoryProvider);
+          final product = productsRepository.getProduct(productId);
+          return product == null
+              ? EmptyPlaceholderWidget(
+                  message: 'Product not found'.hardcoded,
+                )
+              : CustomScrollView(
+                  slivers: [
+                    ResponsiveSliverCenter(
+                      padding: const EdgeInsets.all(Sizes.p16),
+                      child: ProductDetails(product: product),
+                    ),
+                    ProductReviewsList(productId: productId),
+                  ],
+                );
+        }));
   }
 }
 

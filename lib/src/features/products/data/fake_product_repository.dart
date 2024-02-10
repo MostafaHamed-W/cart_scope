@@ -1,10 +1,11 @@
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductRepository {
-  FakeProductRepository._();
+  FakeProductRepository();
   // Singelton .. we force any one uses the class to use the single object called 'instance'
-  static FakeProductRepository instance = FakeProductRepository._();
+  // static FakeProductRepository instance = FakeProductRepository._();
   final _products = kTestProducts;
 
   List<Product> getProductList() {
@@ -28,3 +29,7 @@ class FakeProductRepository {
         .map((products) => products.firstWhere((product) => product.id == productID));
   }
 }
+
+final productRepositoryProvider = Provider<FakeProductRepository>((ref) {
+  return FakeProductRepository();
+});

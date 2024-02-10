@@ -8,16 +8,17 @@ import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// A widget that displays the list of products that match the search query.
-class ProductsGrid extends StatelessWidget {
+class ProductsGrid extends ConsumerWidget {
   const ProductsGrid({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Read from data source
-    final products = FakeProductRepository.instance.getProductList();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsRepository = ref.watch(productRepositoryProvider);
+    final products = productsRepository.getProductList();
     return products.isEmpty
         ? Center(
             child: Text(
