@@ -36,8 +36,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_rating_bar: 4.0.1
+  flutter_riverpod: ^2.4.10
   go_router: ^13.1.0
   intl: any
+  riverpod_annotation: ^2.3.4
   shared_preferences: ^2.2.2
 
 dev_dependencies:
