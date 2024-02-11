@@ -42,7 +42,9 @@ class ProductsGrid extends ConsumerWidget {
               },
             ),
       error: (error, st) => Center(child: ErrorMessageWidget(error.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

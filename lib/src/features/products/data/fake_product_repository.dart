@@ -16,12 +16,14 @@ class FakeProductRepository {
     return _products.firstWhere((product) => product.id == productID);
   }
 
-  Future<List<Product>> fetchProcutList() {
+  Future<List<Product>> fetchProcutList() async {
+    await Future.delayed(const Duration(seconds: 3));
     return Future.value(_products);
   }
 
-  Stream<List<Product>> watchProcustList() {
-    return Stream.value(_products);
+  Stream<List<Product>> watchProcustList() async* {
+    await Future.delayed(const Duration(seconds: 2));
+    yield _products;
   }
 
   Stream<Product?> watchProduct(String productID) {
