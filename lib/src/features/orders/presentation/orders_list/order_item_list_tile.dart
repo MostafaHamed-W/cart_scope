@@ -13,6 +13,9 @@ class OrderItemListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // TODO: Use productProvider with async value with .when and use shimmers for loading as exercise
+    // TODO: Read from data source
+
     final productsRepository = ref.watch(productRepositoryProvider);
     final product = productsRepository.getProduct(item.productId);
     return Padding(

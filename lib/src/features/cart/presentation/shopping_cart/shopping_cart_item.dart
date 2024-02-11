@@ -30,6 +30,7 @@ class ShoppingCartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Use productProvider with async value with .when and use shimmers for loading as exercise
     // TODO: Read from data source
     final product = kTestProducts.firstWhere((product) => product.id == item.productId);
     return Padding(

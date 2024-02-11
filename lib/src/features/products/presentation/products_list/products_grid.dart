@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
 import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
+import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:cart_scope/src/features/products/presentation/products_list/product_card.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
@@ -19,8 +21,8 @@ class ProductsGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productListStreamProvider);
-
-    return productsRepository.when(
+    return AsyncValueWidget<List<Product>>(
+      asyncValue: productsRepository,
       data: (products) => products.isEmpty
           ? Center(
               child: Text(
@@ -41,10 +43,6 @@ class ProductsGrid extends ConsumerWidget {
                 );
               },
             ),
-      error: (error, st) => Center(child: ErrorMessageWidget(error.toString())),
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 }

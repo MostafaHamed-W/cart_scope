@@ -59,6 +59,6 @@ final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref
   Timer(const Duration(seconds: 10), () {
     link.close();
   });
-  ref.onDispose(() => debugPrint('Product provider disposed'));
+  ref.onDispose(() => debugPrint('Product provider disposed with id $productID'));
   return productRepository.watchProduct(productID);
 });
