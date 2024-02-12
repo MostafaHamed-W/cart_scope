@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
-import 'package:cart_scope/src/constants/test_products.dart';
+import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
+import 'package:cart_scope/src/common_widgets/shimmers_layout.dart';
+import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/custom_image.dart';
@@ -10,10 +12,11 @@ import 'package:cart_scope/src/common_widgets/responsive_two_column_layout.dart'
 import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 /// Shows a shopping cart item (or loading/error UI if needed)
-class ShoppingCartItem extends StatelessWidget {
+class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({
     super.key,
     required this.item,
@@ -29,23 +32,25 @@ class ShoppingCartItem extends StatelessWidget {
   final bool isEditable;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Use productProvider with async value with .when and use shimmers for loading as exercise
-    // TODO: Read from data source
-    final product = kTestProducts.firstWhere((product) => product.id == item.productId);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          child: ShoppingCartItemContents(
-            product: product,
-            item: item,
-            itemIndex: itemIndex,
-            isEditable: isEditable,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productValue = ref.watch(productProvider(item.productId));
+    return productValue.when(
+      data: (product) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.p16),
+            child: ShoppingCartItemContents(
+              product: product!,
+              item: item,
+              itemIndex: itemIndex,
+              isEditable: isEditable,
+            ),
           ),
         ),
       ),
+      error: (error, st) => ErrorMessageWidget(error.toString()),
+      loading: () => const CutomShimmerLayout(),
     );
   }
 }

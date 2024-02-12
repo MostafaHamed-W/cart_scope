@@ -20,7 +20,7 @@ class FakeProductRepository {
   }
 
   Future<List<Product>> fetchProcutList() async {
-    // await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     return Future.value(_products);
   }
 
@@ -55,10 +55,10 @@ final productListFutureProvider = FutureProvider<List<Product>>((ref) async {
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, productID) {
   debugPrint('Created product Provider with id $productID');
   final productRepository = ref.watch(productRepositoryProvider);
-  final link = ref.keepAlive();
-  Timer(const Duration(seconds: 10), () {
-    link.close();
-  });
+  // final link = ref.keepAlive();
+  // Timer(const Duration(seconds: 10), () {
+  //   link.close();
+  // });
   ref.onDispose(() => debugPrint('Product provider disposed with id $productID'));
   return productRepository.watchProduct(productID);
 });

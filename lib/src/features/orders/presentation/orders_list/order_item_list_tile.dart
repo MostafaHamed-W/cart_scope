@@ -1,3 +1,5 @@
+import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
+import 'package:cart_scope/src/common_widgets/shimmers_layout.dart';
 import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
@@ -13,36 +15,36 @@ class OrderItemListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Use productProvider with async value with .when and use shimmers for loading as exercise
-    // TODO: Read from data source
-
-    final productsRepository = ref.watch(productRepositoryProvider);
-    final product = productsRepository.getProduct(item.productId);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 1,
-            child: CustomImage(imageUrl: product!.imageUrl),
-          ),
-          gapW8,
-          Flexible(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(product!.title),
-                gapH12,
-                Text(
-                  'Quantity: ${item.quantity}'.hardcoded,
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
+    final productValue = ref.watch(productProvider(item.productId));
+    return productValue.when(
+      data: (product) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: CustomImage(imageUrl: product!.imageUrl),
             ),
-          ),
-        ],
+            gapW8,
+            Flexible(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product!.title),
+                  gapH12,
+                  Text(
+                    'Quantity: ${item.quantity}'.hardcoded,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
+      error: (error, st) => ErrorMessageWidget(error.toString()),
+      loading: () => Padding(padding: EdgeInsets.only(left: 10), child: const CutomShimmerLayout()),
     );
   }
 }
