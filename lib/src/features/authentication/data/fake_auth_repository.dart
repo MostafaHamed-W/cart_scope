@@ -8,3 +8,26 @@ abstract class AuthRepository {
   Future<void> createEmailWithEmailAndPassword(String emial, String password);
   Future<void> signOut();
 }
+
+class FakeAuthRepository implements AuthRepository {
+  @override
+  Stream<AppUser?> authStateChanges() => Stream.value(null); //TODO: implement
+
+  @override
+  AppUser? get currentUser => null; //TODO: implement
+
+  @override
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    //TODO: implement
+  }
+
+  @override
+  Future<void> createEmailWithEmailAndPassword(String emial, String password) async {
+    //TODO: implement
+  }
+
+  @override
+  Future<void> signOut() async {
+    //TODO: implement
+  }
+}
