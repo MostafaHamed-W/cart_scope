@@ -1,4 +1,5 @@
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
+import 'package:cart_scope/src/utils/in_memory_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AuthRepository {
@@ -10,25 +11,40 @@ abstract class AuthRepository {
 }
 
 class FakeAuthRepository implements AuthRepository {
-  @override
-  Stream<AppUser?> authStateChanges() => Stream.value(null); //TODO: implement
+  final _authState = InMemoryStore<AppUser?>(null);
 
   @override
-  AppUser? get currentUser => null; //TODO: implement
+  Stream<AppUser?> authStateChanges() => _authState.stream;
+
+  @override
+  AppUser? get currentUser => _authState.value;
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    //TODO: implement
+    if (currentUser == null) {
+      _createNewUser(email);
+    }
   }
 
   @override
-  Future<void> createEmailWithEmailAndPassword(String emial, String password) async {
-    //TODO: implement
+  Future<void> createEmailWithEmailAndPassword(String email, String password) async {
+    if (currentUser == null) {
+      _createNewUser(email);
+    }
   }
 
   @override
   Future<void> signOut() async {
-    //TODO: implement
+    _authState.value = null;
+  }
+
+  void dispose() => _authState.close();
+
+  void _createNewUser(String email) {
+    _authState.value = AppUser(
+      uid: email.split('').reversed.join(),
+      email: email,
+    );
   }
 }
 
@@ -67,7 +83,11 @@ class FirebaseAuthRepository implements AuthRepository {
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   // final isFake = String.fromEnvironment("useFakeRepos") == true;
   // return isFake ? FakeAuthRepository() : FirebaseAuthRepository();
-  return FakeAuthRepository();
+  final auth = FakeAuthRepository();
+  ref.onDispose(() {
+    auth.dispose();
+  });
+  return auth;
 });
 
 final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
