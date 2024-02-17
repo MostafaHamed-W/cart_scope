@@ -42,6 +42,7 @@ dependencies:
   riverpod_annotation: ^2.3.4
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+  rxdart: 0.27.7
 
 dev_dependencies:
   flutter_lints: 2.0.1
