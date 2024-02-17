@@ -48,36 +48,6 @@ class FakeAuthRepository implements AuthRepository {
   }
 }
 
-class FirebaseAuthRepository implements AuthRepository {
-  @override
-  Stream<AppUser?> authStateChanges() {
-    // TODO: implement authStateChanges
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> createEmailWithEmailAndPassword(String emial, String password) {
-    // TODO: implement createEmailWithEmailAndPassword
-    throw UnimplementedError();
-  }
-
-  @override
-  // TODO: implement currentUser
-  AppUser? get currentUser => throw UnimplementedError();
-
-  @override
-  Future<void> signInWithEmailAndPassword(String email, String password) {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
-  }
-}
-
 //we can run with command: —dart-define=useFakeRepos=true to run with string from environment
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
