@@ -1,4 +1,6 @@
+import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AccountScreenController extends Notifier<AsyncValue<void>> {
@@ -10,14 +12,16 @@ class AccountScreenController extends Notifier<AsyncValue<void>> {
     return const AsyncValue.data(null);
   }
 
-  Future<void> signOut() async {
+  Future<bool> signOut() async {
     state = const AsyncValue.loading();
     await Future.delayed(const Duration(seconds: 2));
     try {
       await fakeAuthRepository.signOut();
-      state = const AsyncValue.data(null);
+      state = const AsyncValue<void>.data(null);
+      return true;
     } catch (e, st) {
-      state = AsyncValue.error(e, st);
+      state = AsyncValue<void>.error(e, st);
+      return false;
     }
   }
 }
