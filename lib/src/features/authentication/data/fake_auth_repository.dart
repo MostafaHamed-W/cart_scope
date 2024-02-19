@@ -79,7 +79,7 @@ class FirebaseAuthRepository implements AuthRepository {
 }
 //we can run with command: —dart-define=useFakeRepos=true to run with string from environment
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
+final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
   // final isFake = String.fromEnvironment("useFakeRepos") == true;
   // return isFake ? FakeAuthRepository() : FirebaseAuthRepository();
   final auth = FakeAuthRepository();
