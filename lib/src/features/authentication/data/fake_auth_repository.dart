@@ -1,4 +1,5 @@
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
+import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/in_memory_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -3,6 +3,7 @@ import 'package:cart_scope/src/features/authentication/data/fake_auth_repository
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen_controller.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
+import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/action_text_button.dart';
 import 'package:cart_scope/src/common_widgets/responsive_center.dart';
@@ -15,15 +16,8 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(accountScreenControllerProvider, (previousState, state) {
-      if (state.hasError) {
-        showExceptionAlertDialog(
-          context: context,
-          title: 'Error'.hardcoded,
-          exception: state.error,
-        );
-      }
-    });
+    ref.listen(accountScreenControllerProvider,
+        (previousState, state) => state.showAlertDialogOnError(context));
 
     final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
