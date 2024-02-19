@@ -13,16 +13,21 @@ class AccountScreenController extends Notifier<AsyncValue<void>> {
   }
 
   Future<bool> signOut() async {
+    // state = const AsyncValue.loading();
+    // await Future.delayed(const Duration(seconds: 2));
+    // try {
+    //   await fakeAuthRepository.signOut();
+    //   state = const AsyncValue<void>.data(null);
+    //   return true;
+    // } catch (e, st) {
+    //   state = AsyncValue<void>.error(e, st);
+    //   return false;
+    // }
+
+    //Instead of using try, catch and write boiler plate code, riverpod has created us .Gurad
     state = const AsyncValue.loading();
-    await Future.delayed(const Duration(seconds: 2));
-    try {
-      await fakeAuthRepository.signOut();
-      state = const AsyncValue<void>.data(null);
-      return true;
-    } catch (e, st) {
-      state = AsyncValue<void>.error(e, st);
-      return false;
-    }
+    state = await AsyncValue.guard(() => fakeAuthRepository.signOut());
+    return state.hasError == false;
   }
 }
 
