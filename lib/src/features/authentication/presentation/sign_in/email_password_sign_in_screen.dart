@@ -8,6 +8,7 @@ import 'package:cart_scope/src/common_widgets/custom_text_button.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
 import 'package:cart_scope/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Email & password sign in screen.
 /// Wraps the [EmailPasswordSignInContents] widget below with a [Scaffold] and
@@ -35,7 +36,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
 /// A widget for email & password authentication, supporting the following:
 /// - sign in
 /// - register (create an account)
-class EmailPasswordSignInContents extends StatefulWidget {
+class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   const EmailPasswordSignInContents({
     super.key,
     this.onSignedIn,
@@ -46,10 +47,10 @@ class EmailPasswordSignInContents extends StatefulWidget {
   /// The default form type to use.
   final EmailPasswordSignInFormType formType;
   @override
-  State<EmailPasswordSignInContents> createState() => _EmailPasswordSignInContentsState();
+  ConsumerState<EmailPasswordSignInContents> createState() => _EmailPasswordSignInContentsState();
 }
 
-class _EmailPasswordSignInContentsState extends State<EmailPasswordSignInContents> {
+class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignInContents> {
   final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
   final _emailController = TextEditingController();
@@ -76,10 +77,10 @@ class _EmailPasswordSignInContentsState extends State<EmailPasswordSignInContent
 
   Future<void> _submit(EmailPasswordSignInState state) async {
     setState(() => _submitted = true);
-    FakeAuthRepository fakeAuthRepository = FakeAuthRepository();
+
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      await fakeAuthRepository.signInWithEmailAndPassword(email, password);
+      /// TODO: implment sign in method with controller
       widget.onSignedIn?.call();
     }
   }
