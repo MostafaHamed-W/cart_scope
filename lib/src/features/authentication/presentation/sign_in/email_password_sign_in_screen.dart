@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/string_validators.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
@@ -63,8 +64,7 @@ class _EmailPasswordSignInContentsState extends State<EmailPasswordSignInContent
   // https://codewithandrea.com/articles/flutter-text-field-form-validation/
   var _submitted = false;
   // local variable representing the form type and loading state
-  late var _state = EmailPasswordSignInState(formType: widget.formType, isLoading: false);
-
+  late var _state = EmailPasswordSignInState(formType: widget.formType);
   @override
   void dispose() {
     // * TextEditingControllers should be always disposed
@@ -76,9 +76,10 @@ class _EmailPasswordSignInContentsState extends State<EmailPasswordSignInContent
 
   Future<void> _submit(EmailPasswordSignInState state) async {
     setState(() => _submitted = true);
+    FakeAuthRepository fakeAuthRepository = FakeAuthRepository();
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      // TODO: Authentication logic
+      await fakeAuthRepository.signInWithEmailAndPassword(email, password);
       widget.onSignedIn?.call();
     }
   }
