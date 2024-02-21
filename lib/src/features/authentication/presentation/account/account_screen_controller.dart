@@ -26,6 +26,7 @@ class AccountScreenController extends Notifier<AsyncValue<void>> {
     state = const AsyncValue.loading();
     await Future.delayed(const Duration(seconds: 2));
     state = await AsyncValue.guard(() => fakeAuthRepository.signOut());
+    // print(state.hasError);
     return state.hasError == false;
   }
 }

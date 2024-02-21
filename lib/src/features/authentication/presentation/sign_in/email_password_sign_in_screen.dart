@@ -1,7 +1,9 @@
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/sign_in_screen_controller.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/string_validators.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cart_scope/src/common_widgets/custom_text_button.dart';
@@ -65,7 +67,8 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
   // https://codewithandrea.com/articles/flutter-text-field-form-validation/
   var _submitted = false;
   // local variable representing the form type and loading state
-  late var _state = EmailPasswordSignInState(formType: widget.formType);
+  // we remove it to read state from controller
+  // late var _state = EmailPasswordSignInState(formType: widget.formType);
   @override
   void dispose() {
     // * TextEditingControllers should be always disposed
@@ -77,11 +80,13 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
 
   Future<void> _submit(EmailPasswordSignInState state) async {
     setState(() => _submitted = true);
-
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      /// TODO: implment sign in method with controller
-      widget.onSignedIn?.call();
+      final controller = ref.read(signInScreenControllerProvider(widget.formType).notifier);
+      final success = await controller.submit(email, password);
+      if (success) {
+        widget.onSignedIn?.call();
+      }
     }
   }
 
@@ -101,13 +106,18 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
 
   void _updateFormType(EmailPasswordSignInFormType formType) {
     // * Toggle between register and sign in form
-    setState(() => _state = _state.copyWith(formType: formType));
+    // setState(() => _state = _state.copyWith(formType: formType));
+    ref.read(signInScreenControllerProvider(widget.formType).notifier).updateFormType(formType);
     // * Clear the password field when doing so
     _passwordController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(signInScreenControllerProvider(widget.formType), (_, state) {
+      state.value.showAlertDialogOnError(context);
+    });
+    final state = ref.watch(signInScreenControllerProvider(widget.formType));
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -124,15 +134,15 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
                 decoration: InputDecoration(
                   labelText: 'Email'.hardcoded,
                   hintText: 'test@test.com'.hardcoded,
-                  enabled: !_state.isLoading,
+                  enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) => !_submitted ? null : _state.emailErrorText(email ?? ''),
+                validator: (email) => !_submitted ? null : state.emailErrorText(email ?? ''),
                 autocorrect: false,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 keyboardAppearance: Brightness.light,
-                onEditingComplete: () => _emailEditingComplete(_state),
+                onEditingComplete: () => _emailEditingComplete(state),
                 inputFormatters: <TextInputFormatter>[
                   ValidatorInputFormatter(editingValidator: EmailEditingRegexValidator()),
                 ],
@@ -143,29 +153,29 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
                 key: EmailPasswordSignInScreen.passwordKey,
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: _state.passwordLabelText,
-                  enabled: !_state.isLoading,
+                  labelText: state.passwordLabelText,
+                  enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (password) =>
-                    !_submitted ? null : _state.passwordErrorText(password ?? ''),
+                    !_submitted ? null : state.passwordErrorText(password ?? ''),
                 obscureText: true,
                 autocorrect: false,
                 textInputAction: TextInputAction.done,
                 keyboardAppearance: Brightness.light,
-                onEditingComplete: () => _passwordEditingComplete(_state),
+                onEditingComplete: () => _passwordEditingComplete(state),
               ),
               gapH8,
               PrimaryButton(
-                text: _state.primaryButtonText,
-                isLoading: _state.isLoading,
-                onPressed: _state.isLoading ? null : () => _submit(_state),
+                text: state.primaryButtonText,
+                isLoading: state.isLoading,
+                onPressed: state.isLoading ? null : () => _submit(state),
               ),
               gapH8,
               CustomTextButton(
-                text: _state.secondaryButtonText,
+                text: state.secondaryButtonText,
                 onPressed:
-                    _state.isLoading ? null : () => _updateFormType(_state.secondaryActionFormType),
+                    state.isLoading ? null : () => _updateFormType(state.secondaryActionFormType),
               ),
             ],
           ),
