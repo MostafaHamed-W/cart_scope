@@ -1,12 +1,14 @@
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CartScope extends StatelessWidget {
+class CartScope extends ConsumerWidget {
   const CartScope({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final goRouter = ref.watch(goRouterPRovider);
     return MaterialApp.router(
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
