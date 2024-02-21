@@ -28,7 +28,15 @@ class EmailPasswordSignInController extends StateNotifier<EmailPasswordSignInSta
   }
 
   void updateFormType(EmailPasswordSignInFormType formType) {
-    state = state.copyWith(formType: formType);
+    state = state.copyWith(
+      formType: formType,
+      // To avoid alert dialog show up wueh form type update after an error of logging in
+      // because the value was set to AsyncValue.error() and never changed
+      // value: const AsyncValue.data(null),
+
+      // Another solution we can add .select() to the listener of alert error dialog
+      // to only listen to the asyncValue and never called when the formType changed
+    );
   }
 }
 

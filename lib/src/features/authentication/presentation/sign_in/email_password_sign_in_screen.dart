@@ -114,8 +114,11 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(signInScreenControllerProvider(widget.formType), (_, state) {
-      state.value.showAlertDialogOnError(context);
+    ref.listen(
+        signInScreenControllerProvider(widget.formType).select(
+          (state) => state.value,
+        ), (_, state) {
+      state.showAlertDialogOnError(context);
     });
     final state = ref.watch(signInScreenControllerProvider(widget.formType));
     return ResponsiveScrollableCard(
