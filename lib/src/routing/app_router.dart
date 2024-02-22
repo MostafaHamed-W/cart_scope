@@ -8,6 +8,7 @@ import 'package:cart_scope/src/features/orders/presentation/orders_list/orders_l
 import 'package:cart_scope/src/features/products/presentation/product_screen/product_screen.dart';
 import 'package:cart_scope/src/features/products/presentation/products_list/products_list_screen.dart';
 import 'package:cart_scope/src/features/reviews/presentation/leave_review_screen/leave_review_screen.dart';
+import 'package:cart_scope/src/routing/go_router_refresh_stram.dart';
 import 'package:cart_scope/src/routing/not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,27 +25,26 @@ enum AppRoute {
   signIn,
 }
 
-final goRouterPRovider = Provider<GoRouter>(
+final goRouterProvider = Provider<GoRouter>(
   (ref) {
+    final authRepository = ref.watch(authRepositoryProvider);
     return GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: false,
       redirect: (context, state) {
-        final authRepository = ref.watch(authRepositoryProvider);
         final isLoggedIn = authRepository.currentUser != null;
-        // print('isLoggedIn = $isLoggedIn');
-        // print(state.fullPath);
         if (isLoggedIn) {
-          if (state.fullPath == '/signIn') {
+          if (state.location == '/signIn') {
             return '/';
           }
         } else {
-          if (state.fullPath == '/account' || state.fullPath == '/orders') {
+          if (state.location == '/orders' || state.location == '/account') {
             return '/';
           }
         }
         return null;
       },
+      refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
       routes: [
         GoRoute(
           path: '/',
@@ -55,7 +55,7 @@ final goRouterPRovider = Provider<GoRouter>(
               path: 'product/:id',
               name: AppRoute.product.name,
               builder: (context, state) {
-                final productId = state.pathParameters['id']!;
+                final productId = state.params['id']!;
                 return ProductScreen(productId: productId);
               },
               routes: [
@@ -63,7 +63,7 @@ final goRouterPRovider = Provider<GoRouter>(
                   path: 'review',
                   name: AppRoute.leaveReview.name,
                   pageBuilder: (context, state) {
-                    final productId = state.pathParameters['id']!;
+                    final productId = state.params['id']!;
                     return MaterialPage(
                       key: state.pageKey,
                       fullscreenDialog: true,
@@ -86,7 +86,7 @@ final goRouterPRovider = Provider<GoRouter>(
                   path: 'checkout',
                   name: AppRoute.checkout.name,
                   pageBuilder: (context, state) => MaterialPage(
-                    key: state.pageKey,
+                    key: ValueKey(state.location),
                     fullscreenDialog: true,
                     child: const CheckoutScreen(),
                   ),

@@ -16,7 +16,7 @@ void main() async {
   // * Entry point of the app
   runApp(const ProviderScope(child: CartScope()));
   // *to make pushNamed or push effects the url we do this afer V8.0.0
-  GoRouter.optionURLReflectsImperativeAPIs = true;
+  // GoRouter.optionURLReflectsImperativeAPIs = true;
 }
 
 void registerErrorHandlers() {

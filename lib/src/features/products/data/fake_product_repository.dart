@@ -40,10 +40,10 @@ final productRepositoryProvider = Provider<FakeProductRepository>((ref) {
 });
 
 final productListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
-  debugPrint('Created product list Provider');
+  // debugPrint('Created product list Provider');
   final productRepository = ref.watch(productRepositoryProvider);
   ref.keepAlive();
-  ref.onDispose(() => debugPrint('Product list provider disposed'));
+  // ref.onDispose(() => debugPrint('Product list provider disposed'));
   return productRepository.watchProcustList();
 });
 
@@ -53,12 +53,12 @@ final productListFutureProvider = FutureProvider<List<Product>>((ref) async {
 });
 
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, productID) {
-  debugPrint('Created product Provider with id $productID');
+  // debugPrint('Created product Provider with id $productID');
   final productRepository = ref.watch(productRepositoryProvider);
   // final link = ref.keepAlive();
   // Timer(const Duration(seconds: 10), () {
   //   link.close();
   // });
-  ref.onDispose(() => debugPrint('Product provider disposed with id $productID'));
+  // ref.onDispose(() => debugPrint('Product provider disposed with id $productID'));
   return productRepository.watchProduct(productID);
 });

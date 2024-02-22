@@ -15,8 +15,8 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(accountScreenControllerProvider,
-        (previousState, state) => state.showAlertDialogOnError(context));
+    ref.listen(
+        accountScreenControllerProvider, (_, state) => state.showAlertDialogOnError(context));
 
     final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
@@ -29,7 +29,7 @@ class AccountScreen extends ConsumerWidget {
                   text: 'Logout'.hardcoded,
                   onPressed: () async {
                     // get the navigator before the async gap
-                    final navigator = Navigator.of(context);
+
                     final logout = await showAlertDialog(
                       context: context,
                       title: 'Are you sure?'.hardcoded,
@@ -37,9 +37,7 @@ class AccountScreen extends ConsumerWidget {
                       defaultActionText: 'Logout'.hardcoded,
                     );
                     if (logout == true) {
-                      final success =
-                          await ref.read(accountScreenControllerProvider.notifier).signOut();
-                      if (success) navigator.pop();
+                      ref.read(accountScreenControllerProvider.notifier).signOut();
                     }
                   },
                 ),
