@@ -39,7 +39,7 @@ class LeaveReviewAction extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.green[700]),
               onPressed: () => context.goNamed(
                 AppRoute.leaveReview.name,
-                params: {'id': productId},
+                pathParameters: {'id': productId},
               ),
             ),
           ),

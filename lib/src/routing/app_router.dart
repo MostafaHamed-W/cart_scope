@@ -55,7 +55,7 @@ final goRouterProvider = Provider<GoRouter>(
               path: 'product/:id',
               name: AppRoute.product.name,
               builder: (context, state) {
-                final productId = state.params['id']!;
+                final productId = state.pathParameters['id']!;
                 return ProductScreen(productId: productId);
               },
               routes: [
@@ -63,7 +63,7 @@ final goRouterProvider = Provider<GoRouter>(
                   path: 'review',
                   name: AppRoute.leaveReview.name,
                   pageBuilder: (context, state) {
-                    final productId = state.params['id']!;
+                    final productId = state.pathParameters['id']!;
                     return MaterialPage(
                       key: state.pageKey,
                       fullscreenDialog: true,
