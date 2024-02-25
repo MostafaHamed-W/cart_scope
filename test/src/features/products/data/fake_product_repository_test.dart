@@ -16,4 +16,51 @@ void main() {
       kTestProducts,
     ),
   );
+
+  test(
+    'Test get Product by id funtion getProcut(1) return first item',
+    () => expect(
+      fakeProductRepository.getProduct('1'),
+      kTestProducts[0],
+    ),
+  );
+
+  test(
+    'Test get Product by id funtion getProcut(1) return null',
+    () => expect(
+      fakeProductRepository.getProduct('100'),
+      null,
+    ),
+  );
 }
+
+
+
+  // test(
+  //   'Test get Product by id funtion',
+  //   () => expect(
+  //     fakeProductRepository.getProduct('1'),
+  //     kTestProducts[0],
+  //   ),
+  // );
+
+  /// but the return of getProduct('100') will be bad state
+  /// due to .firstWhere() behaviour as it return with state error when we it
+  /// couldn't find an element, so we should use orElse on it, but we cannot do it
+  /// because it's a list<product> not list<product?> so we use Matchers: throwsStateError
+
+  // test(
+  //   'Test get Product by id funtion',
+  //   () => expect(
+  //     fakeProductRepository.getProduct('100'),
+  //     throwsStateError,
+  //   ),
+  // );
+
+  /// Why the prevoius method test didn't work although we used Matchers?
+  /// because the fakeProductRepository.getProduct('100') throw the exception
+  /// before expect method execute, so we put it in closure ()=> method
+  /// 
+  /// 
+  /// or instead of all of these we can refactor our code to return null
+  /// when it cannot find the item : this refactor in FakeProductRepository
