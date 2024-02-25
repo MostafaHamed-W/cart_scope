@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:cart_scope/src/utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductRepository {
-  FakeProductRepository();
+  FakeProductRepository({this.isDelayed = false});
   // Singelton .. we force any one uses the class to use the single object called 'instance'
   // static FakeProductRepository instance = FakeProductRepository._();
   final _products = kTestProducts;
+  final bool isDelayed;
 
   List<Product> getProductList() {
     return _products;
@@ -18,12 +20,12 @@ class FakeProductRepository {
   }
 
   Future<List<Product>> fetchProcutList() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await delay(isDelayed);
     return Future.value(_products);
   }
 
   Stream<List<Product>> watchProcustList() async* {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(isDelayed);
     yield _products;
   }
 
