@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductRepository {
