@@ -1,5 +1,6 @@
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/delay.dart';
 import 'package:cart_scope/src/utils/in_memory_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,7 +31,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> createEmailWithEmailAndPassword(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(true);
     if (currentUser == null) {
       _createNewUser(email);
     }
@@ -38,7 +39,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(true);
     // throw Exception('Error signning in!');
     _authState.value = null;
   }
