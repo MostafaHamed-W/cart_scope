@@ -9,28 +9,69 @@ void main() {
   // first we type the actual value we want to check,
   // then we type the value we expect from testing actual one
   // ))
-  test(
-    'Test products list that returned from getProductsList',
-    () => expect(
-      fakeProductRepository.getProductList(),
-      kTestProducts,
-    ),
-  );
 
-  test(
-    'Test get Product by id funtion getProcut(1) return first item',
-    () => expect(
-      fakeProductRepository.getProduct('1'),
-      kTestProducts[0],
-    ),
-  );
+  // We Can Group all related test together in group() method
+  group(
+    'FakeProductRepositlry Unit Testing',
+    () {
+      test(
+        'Test products list that returned from getProductsList',
+        () => expect(
+          fakeProductRepository.getProductList(),
+          kTestProducts,
+        ),
+      );
 
-  test(
-    'Test get Product by id funtion getProcut(1) return null',
-    () => expect(
-      fakeProductRepository.getProduct('100'),
-      null,
-    ),
+      test(
+        'Test get Product by id funtion getProcut(1) return first item',
+        () => expect(
+          fakeProductRepository.getProduct('1'),
+          kTestProducts[0],
+        ),
+      );
+
+      test(
+        'Test get Product by id funtion getProcut(1) return null',
+        () => expect(
+          fakeProductRepository.getProduct('100'),
+          null,
+        ),
+      );
+
+      // Handle Unit Testing with Future by using async and await
+      test(
+        'Test fetchProductList',
+        () async => expect(
+          await fakeProductRepository.fetchProcutList(),
+          kTestProducts,
+        ),
+      );
+
+      // Handle Unit Testing with Streams by using emits() Matcher
+      test(
+        'Test watchProductList function',
+        () => expect(
+          fakeProductRepository.watchProcustList(),
+          emits(kTestProducts),
+        ),
+      );
+
+      test(
+        'Test watchProduct function',
+        () => expect(
+          fakeProductRepository.watchProduct('1'),
+          emits(kTestProducts[0]),
+        ),
+      );
+
+      test(
+        'Test watchProducts function with null return',
+        () => expect(
+          fakeProductRepository.watchProduct('100'),
+          emits(null),
+        ),
+      );
+    },
   );
 }
 
