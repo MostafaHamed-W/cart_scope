@@ -20,12 +20,38 @@ void main() {
       test(
         'signOut success',
         () async {
+          // setup
           final authRepository = MockAuthRepository();
           when(authRepository.signOut).thenAnswer((_) => Future.value());
           final controller = AccountScreenController(authRepository: authRepository);
+
+          // run
           await controller.signOut();
-          expect(controller.state, const AsyncData<void>(null));
+
+          //verify
           verify(authRepository.signOut).called(1);
+          expect(controller.state, const AsyncData<void>(null));
+        },
+      );
+
+      test(
+        'signOut failure',
+        () async {
+          // setup
+          final authRepository = MockAuthRepository();
+          Exception exception = Exception('Connection Failed!');
+
+          when(authRepository.signOut).thenThrow(exception);
+          final controller = AccountScreenController(authRepository: authRepository);
+
+          // run
+          await controller.signOut();
+
+          //verify
+          verify(authRepository.signOut).called(1);
+          expect(controller.state.hasError, true);
+          // or we can test like this
+          expect(controller.state, isA<AsyncError>());
         },
       );
     },
