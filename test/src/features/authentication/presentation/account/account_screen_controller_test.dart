@@ -18,13 +18,22 @@ void main() {
       });
 
       test(
-        'signOut success',
+        'signOut success with loading state',
         () async {
           // setup
           final authRepository = MockAuthRepository();
           when(authRepository.signOut).thenAnswer((_) => Future.value());
           final controller = AccountScreenController(authRepository: authRepository);
 
+          expectLater(
+            controller.stream,
+            emitsInOrder(
+              [
+                const AsyncLoading<void>(),
+                const AsyncData<void>(null),
+              ],
+            ),
+          );
           // run
           await controller.signOut();
 
@@ -32,26 +41,37 @@ void main() {
           verify(authRepository.signOut).called(1);
           expect(controller.state, const AsyncData<void>(null));
         },
+        timeout: const Timeout(Duration(milliseconds: 500)),
       );
 
       test(
-        'signOut failure',
+        'signout failure',
         () async {
           // setup
           final authRepository = MockAuthRepository();
-          Exception exception = Exception('Connection Failed!');
+          Exception exception = Exception('Connection failed');
 
           when(authRepository.signOut).thenThrow(exception);
           final controller = AccountScreenController(authRepository: authRepository);
 
-          // run
+          expectLater(
+            controller.stream,
+            emitsInOrder(
+              [
+                const AsyncLoading<void>(),
+                predicate<AsyncValue<void>>((value) {
+                  expect(value.hasError, true);
+                  return true;
+                })
+              ],
+            ),
+          );
+          //run
           await controller.signOut();
 
           //verify
           verify(authRepository.signOut).called(1);
           expect(controller.state.hasError, true);
-          // or we can test like this
-          expect(controller.state, isA<AsyncError>());
         },
       );
     },
