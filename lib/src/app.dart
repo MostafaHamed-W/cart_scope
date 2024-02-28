@@ -15,11 +15,16 @@ class CartScope extends ConsumerWidget {
       restorationScopeId: 'app',
       onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.grey.shade100,
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black87,
           foregroundColor: Colors.white,
           elevation: 0,
+        ),
+        cardTheme: const CardTheme(
+          surfaceTintColor: Colors.white,
+          color: Colors.white,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

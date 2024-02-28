@@ -47,9 +47,9 @@ const kTestProducts = [
   Product(
     id: '7',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H7538ec335e0f46b8a53905efe12f6510V.png',
-    title:
-        'New Arrival Top Quality X15PRO TWS Earphone Zero Latency Gaming Headphone Audifonos HIFI Wireless Earbuds x15 pro',
-    description: 'Mobile Phone, COMPUTER, Gaming, Sports, Travel, PROFESSIONAL',
+    title: 'New Arrival Top Quality X15PRO TWS Earphone Zero Latency',
+    description:
+        ' Gaming Headphone Audifonos HIFI Wireless Earbuds x15 pro Mobile Phone, COMPUTER, Gaming, Sports, Travel, PROFESSIONAL',
     price: 99,
     availableQuantity: 10,
   ),

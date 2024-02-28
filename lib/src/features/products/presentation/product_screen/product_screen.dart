@@ -64,6 +64,8 @@ class ProductDetails extends StatelessWidget {
     final priceFormatted = kCurrencyFormatter.format(product.price);
     return ResponsiveTwoColumnLayout(
       startContent: Card(
+        color: Colors.white,
+        surfaceTintColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           child: CustomImage(imageUrl: product.imageUrl),

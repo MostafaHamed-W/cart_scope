@@ -20,6 +20,9 @@ class ProductCard extends StatelessWidget {
     // TODO: Inject formatter
     final priceFormatted = kCurrencyFormatter.format(product.price);
     return Card(
+      /// TODO: Change product background color
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
       child: InkWell(
         key: productCardKey,
         onTap: onPressed,
