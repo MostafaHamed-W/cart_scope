@@ -7,23 +7,30 @@ import 'package:mocktail/mocktail.dart';
 class MockAuthRepository extends Mock implements FakeAuthRepository {}
 
 void main() {
+  late FakeAuthRepository authRepository;
+  late AccountScreenController controller;
+
+  // run before each test
+  setUp(() {
+    authRepository = MockAuthRepository();
+    controller = AccountScreenController(authRepository: authRepository);
+  });
   group(
     'AccountScreenController Testing',
     () {
       test('initial state is AsyncValue.data', () async {
-        final authReositpry = MockAuthRepository();
-        final controller = AccountScreenController(authRepository: authReositpry);
+        final controller = AccountScreenController(authRepository: authRepository);
         expect(controller.state, const AsyncData<void>(null));
-        verifyNever(authReositpry.signOut);
+        verifyNever(authRepository.signOut);
+        // run after each test ends
+        addTearDown(() => authRepository.dispose());
       });
 
       test(
         'signOut success with loading state',
         () async {
           // setup
-          final authRepository = MockAuthRepository();
           when(authRepository.signOut).thenAnswer((_) => Future.value());
-          final controller = AccountScreenController(authRepository: authRepository);
 
           expectLater(
             controller.stream,
@@ -40,6 +47,8 @@ void main() {
           //verify
           verify(authRepository.signOut).called(1);
           expect(controller.state, const AsyncData<void>(null));
+          // run after each test ends
+          addTearDown(() => authRepository.dispose());
         },
         timeout: const Timeout(Duration(milliseconds: 500)),
       );
@@ -48,11 +57,8 @@ void main() {
         'signout failure',
         () async {
           // setup
-          final authRepository = MockAuthRepository();
           Exception exception = Exception('Connection failed');
-
           when(authRepository.signOut).thenThrow(exception);
-          final controller = AccountScreenController(authRepository: authRepository);
 
           expectLater(
             controller.stream,
@@ -72,6 +78,8 @@ void main() {
           //verify
           verify(authRepository.signOut).called(1);
           expect(controller.state.hasError, true);
+          // run after each test ends
+          addTearDown(() => authRepository.dispose());
         },
       );
     },

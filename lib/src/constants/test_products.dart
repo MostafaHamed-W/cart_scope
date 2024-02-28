@@ -3,7 +3,7 @@ import 'package:cart_scope/src/features/products/domain/product.dart';
 /// Test products to be used until a data source is implemented
 const kTestProducts = [
   Product(
-    id: '2',
+    id: '1',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H09a1c3f79ff440b5ae7a21d20cd4abd7H.jpg',
     title:
         '16.1 inch Laptop gaming Computers 64GB DDR4 RamGTX 1650 4GB discrete graphics card Laptop 16 inch i9 2TB SSD',
@@ -15,7 +15,7 @@ const kTestProducts = [
     numRatings: 2,
   ),
   Product(
-    id: '1',
+    id: '2',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/Hb8d481a0ec2e4779be411159a64d5f3bg.png',
     title: 'Y68 D20 Mobile Phone Android Smart Watch',
     description:
@@ -45,7 +45,7 @@ const kTestProducts = [
     availableQuantity: 5,
   ),
   Product(
-    id: '7',
+    id: '5',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H7538ec335e0f46b8a53905efe12f6510V.png',
     title: 'New Arrival Top Quality X15PRO TWS Earphone Zero Latency',
     description:
@@ -54,7 +54,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '8',
+    id: '6',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H1de464bf8d1643b98bab4f99423ab8a55.jpg',
     title: 'Toyotas Land Cruiser Double Cab VDJ79 Pickup Diesel 4.5L',
     description: '',
@@ -62,7 +62,7 @@ const kTestProducts = [
     availableQuantity: 2,
   ),
   Product(
-    id: '6',
+    id: '7',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/Hed2356df35204d03a680188f94c1cb68s.jpg',
     title: 'iPhone 15 Pro Max 6.8inch Full DisplayDual Sim ',
     description:
@@ -71,7 +71,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '9',
+    id: '8',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H96bfe2561a8c4fe6bfb5e3f86719524eb.jpg',
     title:
         'Charmount Factory Direct Sales Office Chair With Headrest Home Computer Chair Mesh Staff Chairs Swivel Conference',
@@ -80,7 +80,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '10',
+    id: '9',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/Sb284eae73ff14a5b9125149f146da64dl.jpg',
     title:
         'Android TV Box Free Trial 4K IPTV Subscription 12month M3u List Test mega Smart TV Box Reseller Panel Iptv m3u IPTV Subscription',
@@ -89,7 +89,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '11',
+    id: '10',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H4c9de9ee77f74782aefbbf843adf85453.jpg',
     title:
         'outdoor trolley speaker audio portable wireless mini speaker musical active home gaming speaker',
@@ -98,7 +98,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '12',
+    id: '11',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/A8c0e1fccdbb345358da181294b91f7a66.jpg',
     title:
         'KANBRANIEL LLC Sales For New Apples Visions Pro 218GB 512GB 1TB M 21W VR-SIMULATORS IN STOCK READY TO SHIP',
@@ -107,7 +107,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '13',
+    id: '12',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H6cc3777f25c246caaa6490ec76ea2c24O.jpg',
     title:
         '12 In 1 USB Type-C USB-C Multi Hub Laptop Docking Station HDMI 1080P 60Hz USB C Hub 12-In-1 For Macbook',
@@ -116,7 +116,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '14',
+    id: '13',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/H6279567e360f4b8ab04e2f67ce696cb2B.png',
     title:
         'luxury fashion custom eyeglass designer famous brands newest eyewear polarized shades male sun glasses sunglasses for men 2021',
@@ -125,7 +125,7 @@ const kTestProducts = [
     availableQuantity: 10,
   ),
   Product(
-    id: '5',
+    id: '14',
     imageUrl: 'https://s.alicdn.com/@sc04/kf/Hd489ad5c1a40467d9f58b457a875d09bV.png',
     title:
         'Oem Die Cast Aluminum Nonstick Kitchen Cooking Pots And Pans Set Granite Cookware Set With Induction Bottom',
