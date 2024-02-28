@@ -1,3 +1,4 @@
+@Timeout(Duration(milliseconds: 500))
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen_controller.dart';
@@ -55,9 +56,6 @@ void main() {
           final result = await controller.submit(testEmail, testPassword);
           expect(result, true);
         },
-        timeout: const Timeout(
-          Duration(milliseconds: 500),
-        ),
       );
 
       test(
@@ -142,9 +140,6 @@ void main() {
           final result = await controller.submit(testEmail, testPassword);
           expect(result, true);
         },
-        timeout: const Timeout(
-          Duration(milliseconds: 500),
-        ),
       );
 
       test(

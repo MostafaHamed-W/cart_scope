@@ -1,3 +1,4 @@
+@Timeout(Duration(milliseconds: 500))
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
