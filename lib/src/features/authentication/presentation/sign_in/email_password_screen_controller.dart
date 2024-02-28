@@ -12,7 +12,7 @@ class EmailPasswordSignInController extends StateNotifier<EmailPasswordSignInSta
   // We devide sign in into two methods as refactoring
   Future<bool> submit(String email, String password) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
     final value = await AsyncValue.guard(() => _authinticate(email, password));
     state = state.copyWith(value: value);
     return value.hasError == false;
