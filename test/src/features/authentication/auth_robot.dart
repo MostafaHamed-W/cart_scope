@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +20,13 @@ class AuthRobot {
 
   Future<void> tapLogOutButton() async {
     final logOutButton = find.text('Logout');
+    expect(logOutButton, findsOneWidget);
+    await tester.tap(logOutButton);
+    await tester.pump(); // to preform widget rebuild
+  }
+
+  Future<void> tapLogOutAlertButton() async {
+    final logOutButton = find.byKey(alertDialogKey);
     expect(logOutButton, findsOneWidget);
     await tester.tap(logOutButton);
     await tester.pump(); // to preform widget rebuild
