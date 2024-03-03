@@ -29,7 +29,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await delay(false);
+    await delay(isDelayed);
     if (currentUser == null) {
       _createNewUser(email);
     }
@@ -37,7 +37,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> createEmailWithEmailAndPassword(String email, String password) async {
-    await delay(false);
+    await delay(isDelayed);
     if (currentUser == null) {
       _createNewUser(email);
     }
@@ -45,7 +45,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    await delay(false);
+    await delay(isDelayed);
     // throw Exception('Error signning in!');
     _authState.value = null;
   }
