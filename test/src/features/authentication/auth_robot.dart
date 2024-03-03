@@ -1,17 +1,28 @@
+import 'dart:developer';
+
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
+import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../mocks.dart';
+
 class AuthRobot {
   final WidgetTester tester;
   AuthRobot(this.tester);
 
-  Future<void> pumbAccountScreen() async {
+  Future<void> pumbAccountScreen({FakeAuthRepository? authRepository}) async {
     await tester.pumpWidget(
-      const ProviderScope(
-        child: MaterialApp(
+      ProviderScope(
+        overrides: [
+          if (authRepository != null)
+            authRepositoryProvider.overrideWithValue(
+              authRepository,
+            )
+        ],
+        child: const MaterialApp(
           home: AccountScreen(),
         ),
       ),
@@ -46,6 +57,16 @@ class AuthRobot {
 
   void expectLogoutDialogNotFound() {
     final dialogTitle = find.text('Are you sure?');
+    expect(dialogTitle, findsNothing);
+  }
+
+  void expectErorrDialogFound() {
+    final dialogTitle = find.text('Error');
+    expect(dialogTitle, findsOneWidget);
+  }
+
+  void expectErorrDialogNotFound() {
+    final dialogTitle = find.text('Error');
     expect(dialogTitle, findsNothing);
   }
 }
