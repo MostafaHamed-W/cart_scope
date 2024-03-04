@@ -69,4 +69,9 @@ class AuthRobot {
     final dialogTitle = find.text('Error');
     expect(dialogTitle, findsNothing);
   }
+
+  void expectLoadingIndicator() {
+    final finder = find.byType(CircularProgressIndicator);
+    expect(finder, findsWidgets);
+  }
 }

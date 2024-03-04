@@ -19,13 +19,13 @@ void main() {
     r.expectErorrDialogNotFound();
   });
 
-  testWidgets('Confirm logout, success', (tester) async {
+  testWidgets('Confirm logout, sucess', (tester) async {
     AuthRobot r = AuthRobot(tester);
     await r.pumbAccountScreen();
     await r.tapLogOutButton();
     r.expectLogoutDialog();
     await r.tapLogOutAlertButton();
-    r.expectLogoutDialogNotFound();
+    r.expectErorrDialogNotFound();
     r.expectErorrDialogNotFound();
   });
 
@@ -44,5 +44,26 @@ void main() {
     r.expectLogoutDialog();
     await r.tapLogOutAlertButton();
     r.expectErorrDialogFound();
+  });
+
+  testWidgets('logout, loading state', (tester) async {
+    AuthRobot r = AuthRobot(tester);
+    final authRepository = MockAuthRepository();
+    when(authRepository.signOut).thenAnswer(
+      (_) => Future.delayed(const Duration(seconds: 2)),
+    );
+    when(authRepository.authStateChanges).thenAnswer(
+      (_) => Stream.value(
+        const AppUser(uid: '123', email: 'wafy@gmail.com'),
+      ),
+    );
+    await r.pumbAccountScreen(authRepository: authRepository);
+    await tester.runAsync(() async {
+      await r.tapLogOutButton();
+      r.expectLogoutDialog();
+      await r.tapLogOutAlertButton();
+      r.expectLogoutDialogNotFound();
+    });
+    r.expectLoadingIndicator();
   });
 }
