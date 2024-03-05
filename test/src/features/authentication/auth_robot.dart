@@ -13,33 +13,51 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../mocks.dart';
 
 class AuthRobot {
-  final WidgetTester tester;
   AuthRobot(this.tester);
+  final WidgetTester tester;
 
-  Future<void> pumbEmailAndPasswordSigninScreen({
-    required FakeAuthRepository fakeAuthRepository,
+  Future<void> pumpEmailPasswordSignInContents({
+    required FakeAuthRepository authRepository,
     required EmailPasswordSignInFormType formType,
-    VoidCallback? onSignedInt,
-  }) async {
-    await tester.pumpWidget(
+    VoidCallback? onSignedIn,
+  }) {
+    return tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(authRepository),
+        ],
         child: MaterialApp(
-          home: EmailPasswordSignInScreen(
-            formType: formType,
+          home: Scaffold(
+            body: EmailPasswordSignInContents(
+              formType: formType,
+              onSignedIn: onSignedIn,
+            ),
           ),
         ),
       ),
     );
   }
 
-  Future<void> tapSignInButton() async {
+  Future<void> tapEmailAndPasswordSubmitButton() async {
     final primaryButton = find.byType(PrimaryButton);
     expect(primaryButton, findsOneWidget);
     await tester.tap(primaryButton);
     await tester.pump();
   }
 
-  Future<void> pumbAccountScreen({FakeAuthRepository? authRepository}) async {
+  Future<void> enterEmail(String email) async {
+    final emailField = find.byKey(EmailPasswordSignInScreen.emailKey);
+    expect(emailField, findsOneWidget);
+    await tester.enterText(emailField, email);
+  }
+
+  Future<void> enterPassword(String password) async {
+    final passwordField = find.byKey(EmailPasswordSignInScreen.passwordKey);
+    expect(passwordField, findsOneWidget);
+    await tester.enterText(passwordField, password);
+  }
+
+  Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -55,30 +73,23 @@ class AuthRobot {
     );
   }
 
-  Future<void> tapLogOutButton() async {
-    final logOutButton = find.text('Logout');
-    expect(logOutButton, findsOneWidget);
-    await tester.tap(logOutButton);
-    await tester.pump(); // to preform widget rebuild
+  Future<void> tapLogoutButton() async {
+    final logoutButton = find.text('Logout');
+    expect(logoutButton, findsOneWidget);
+    await tester.tap(logoutButton);
+    await tester.pump();
   }
 
-  Future<void> tapLogOutAlertButton() async {
-    final logOutButton = find.byKey(alertDialogKey);
-    expect(logOutButton, findsOneWidget);
-    await tester.tap(logOutButton);
-    await tester.pump(); // to preform widget rebuild
+  void expectLogoutDialogFound() {
+    final dialogTitle = find.text('Are you sure?');
+    expect(dialogTitle, findsOneWidget);
   }
 
-  void expectLogoutDialog() async {
-    final alertDialogTitle = find.text('Are you sure?');
-    expect(alertDialogTitle, findsOneWidget);
-  }
-
-  Future<void> tapCanceltButton() async {
+  Future<void> tapCancelButton() async {
     final cancelButton = find.text('Cancel');
     expect(cancelButton, findsOneWidget);
     await tester.tap(cancelButton);
-    await tester.pump(); // to preform widget rebuild
+    await tester.pump();
   }
 
   void expectLogoutDialogNotFound() {
@@ -86,18 +97,25 @@ class AuthRobot {
     expect(dialogTitle, findsNothing);
   }
 
-  void expectErorrDialogFound() {
-    final dialogTitle = find.text('Error');
-    expect(dialogTitle, findsOneWidget);
+  Future<void> tapDialogLogoutButton() async {
+    final logoutButton = find.byKey(alertDialogKey);
+    expect(logoutButton, findsOneWidget);
+    await tester.tap(logoutButton);
+    await tester.pump();
   }
 
-  void expectErorrDialogNotFound() {
-    final dialogTitle = find.text('Error');
-    expect(dialogTitle, findsNothing);
+  void expectErrorAlertFound() {
+    final finder = find.text('Error');
+    expect(finder, findsOneWidget);
   }
 
-  void expectLoadingIndicator() {
+  void expectErrorAlertNotFound() {
+    final finder = find.text('Error');
+    expect(finder, findsNothing);
+  }
+
+  void expectCircularProgressIndicator() {
     final finder = find.byType(CircularProgressIndicator);
-    expect(finder, findsWidgets);
+    expect(finder, findsOneWidget);
   }
 }

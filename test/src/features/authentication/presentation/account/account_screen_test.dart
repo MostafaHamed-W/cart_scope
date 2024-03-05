@@ -1,7 +1,4 @@
-import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
-import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -9,61 +6,57 @@ import '../../../../../mocks.dart';
 import '../../auth_robot.dart';
 
 void main() {
-  testWidgets('Cancel logout', (tester) async {
-    AuthRobot r = AuthRobot(tester);
-    await r.pumbAccountScreen();
-    await r.tapLogOutButton();
-    r.expectLogoutDialog();
-    await r.tapCanceltButton();
-    r.expectLogoutDialogNotFound();
-    r.expectErorrDialogNotFound();
+  const testEmail = 'test@test.com';
+  const testPassword = '1234';
+  late MockAuthRepository authRepository;
+  setUp(() {
+    authRepository = MockAuthRepository();
   });
-
-  testWidgets('Confirm logout, sucess', (tester) async {
-    AuthRobot r = AuthRobot(tester);
-    await r.pumbAccountScreen();
-    await r.tapLogOutButton();
-    r.expectLogoutDialog();
-    await r.tapLogOutAlertButton();
-    r.expectErorrDialogNotFound();
-    r.expectErorrDialogNotFound();
-  });
-
-  testWidgets('Confirm logout, failure', (tester) async {
-    AuthRobot r = AuthRobot(tester);
-    Exception exception = Exception('Error');
-    final authRepository = MockAuthRepository();
-    when(authRepository.signOut).thenThrow(exception);
-    when(authRepository.authStateChanges).thenAnswer(
-      (_) => Stream.value(
-        const AppUser(uid: '123', email: 'wafy@gmail.com'),
-      ),
-    );
-    await r.pumbAccountScreen(authRepository: authRepository);
-    await r.tapLogOutButton();
-    r.expectLogoutDialog();
-    await r.tapLogOutAlertButton();
-    r.expectErorrDialogFound();
-  });
-
-  testWidgets('logout, loading state', (tester) async {
-    AuthRobot r = AuthRobot(tester);
-    final authRepository = MockAuthRepository();
-    when(authRepository.signOut).thenAnswer(
-      (_) => Future.delayed(const Duration(seconds: 2)),
-    );
-    when(authRepository.authStateChanges).thenAnswer(
-      (_) => Stream.value(
-        const AppUser(uid: '123', email: 'wafy@gmail.com'),
-      ),
-    );
-    await r.pumbAccountScreen(authRepository: authRepository);
-    await tester.runAsync(() async {
-      await r.tapLogOutButton();
-      r.expectLogoutDialog();
-      await r.tapLogOutAlertButton();
-      r.expectLogoutDialogNotFound();
+  group('sign in', () {
+    testWidgets('''
+        Given formType is signIn
+        When tap on the sign-in button
+        Then signInWithEmailAndPassword is not called
+        ''', (tester) async {
+      final r = AuthRobot(tester);
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.signIn,
+      );
+      await r.tapEmailAndPasswordSubmitButton();
+      verifyNever(() => authRepository.signInWithEmailAndPassword(
+            any(),
+            any(),
+          ));
     });
-    r.expectLoadingIndicator();
+    testWidgets('''
+        Given formType is signIn
+        When enter valid email and password
+        And tap on the sign-in button
+        Then signInWithEmailAndPassword is called
+        And onSignedIn callback is called
+        And error alert is not shown
+        ''', (tester) async {
+      var didSignIn = false;
+      final r = AuthRobot(tester);
+      when(() => authRepository.signInWithEmailAndPassword(
+            testEmail,
+            testPassword,
+          )).thenAnswer((_) => Future.value());
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.signIn,
+        onSignedIn: () => didSignIn = true,
+      );
+      await r.enterEmail(testEmail);
+      await r.enterPassword(testPassword);
+      await r.tapEmailAndPasswordSubmitButton();
+      verify(() => authRepository.signInWithEmailAndPassword(
+            testEmail,
+            testPassword,
+          )).called(1);
+      r.expectErrorAlertNotFound();
+      expect(didSignIn, true);
+    });
   });
 }
