@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-const alertDialogKey = Key('alert_dialog_key');
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
 Future<bool?> showAlertDialog({
@@ -28,7 +27,7 @@ Future<bool?> showAlertDialog({
               onPressed: () => Navigator.of(context).pop(false),
             ),
           TextButton(
-            key: alertDialogKey,
+            key: kAlertDialogKey,
             child: Text(defaultActionText),
             onPressed: () => Navigator.of(context).pop(true),
           ),
@@ -48,7 +47,7 @@ Future<bool?> showAlertDialog({
             onPressed: () => Navigator.of(context).pop(false),
           ),
         CupertinoDialogAction(
-          key: alertDialogKey,
+          key: kAlertDialogKey,
           child: Text(defaultActionText),
           onPressed: () => Navigator.of(context).pop(true),
         ),

@@ -59,4 +59,18 @@ void main() {
       expect(didSignIn, true);
     });
   });
+
+  testWidgets('''
+        Given formType is signIn
+        When tap on the register button
+        Then convert to register page is not called
+        ''', (tester) async {
+    final r = AuthRobot(tester);
+    await r.pumpEmailPasswordSignInContents(
+      authRepository: authRepository,
+      formType: EmailPasswordSignInFormType.signIn,
+    );
+    await r.tapUpdateFormButton();
+    expect(find.text('Create an account'), findsOneWidget);
+  });
 }

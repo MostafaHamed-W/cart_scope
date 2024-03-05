@@ -4,6 +4,7 @@ import 'package:cart_scope/src/features/authentication/presentation/sign_in/emai
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/string_validators.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/async_value_ui.dart';
+import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cart_scope/src/common_widgets/custom_text_button.dart';
@@ -170,12 +171,14 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
               ),
               gapH8,
               PrimaryButton(
+                key: kPrimaryButtonKey,
                 text: state.primaryButtonText,
                 isLoading: state.isLoading,
                 onPressed: state.isLoading ? null : () => _submit(state),
               ),
               gapH8,
               CustomTextButton(
+                key: kUpdateFormTypeKey,
                 text: state.secondaryButtonText,
                 onPressed:
                     state.isLoading ? null : () => _updateFormType(state.secondaryActionFormType),

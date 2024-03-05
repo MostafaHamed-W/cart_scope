@@ -6,6 +6,7 @@ import 'package:cart_scope/src/features/authentication/data/fake_auth_repository
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,8 +39,15 @@ class AuthRobot {
     );
   }
 
+  Future<void> tapUpdateFormButton() async {
+    final registerButton = find.byKey(kUpdateFormTypeKey);
+    expect(registerButton, findsOneWidget);
+    await tester.tap(registerButton);
+    await tester.pump();
+  }
+
   Future<void> tapEmailAndPasswordSubmitButton() async {
-    final primaryButton = find.byType(PrimaryButton);
+    final primaryButton = find.byKey(kPrimaryButtonKey);
     expect(primaryButton, findsOneWidget);
     await tester.tap(primaryButton);
     await tester.pump();
@@ -98,7 +106,7 @@ class AuthRobot {
   }
 
   Future<void> tapDialogLogoutButton() async {
-    final logoutButton = find.byKey(alertDialogKey);
+    final logoutButton = find.byKey(kAlertDialogKey);
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
     await tester.pump();
