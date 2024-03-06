@@ -20,12 +20,12 @@ class FakeProductRepository {
   }
 
   Future<List<Product>> fetchProcutList() async {
-    await delay(isDelayed);
+    // await delay(isDelayed);
     return Future.value(_products);
   }
 
   Stream<List<Product>> watchProcustList() async* {
-    await delay(isDelayed);
+    // await delay(isDelayed);
     yield _products;
   }
 
