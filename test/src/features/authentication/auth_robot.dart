@@ -6,6 +6,7 @@ import 'package:cart_scope/src/features/authentication/data/fake_auth_repository
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:cart_scope/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,25 @@ import '../../../mocks.dart';
 class AuthRobot {
   AuthRobot(this.tester);
   final WidgetTester tester;
+
+  Future<void> openAccountSreen() async {
+    final finder = find.byKey(MoreMenuButton.accountKey);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> openEmailAndPasswordSigninScreen() async {
+    final finder = find.byKey(MoreMenuButton.signInKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> signIntWithEmailAndPasswordScreen(String email, String password) async {
+    await enterEmail(email);
+    await enterPassword(password);
+    await tapEmailAndPasswordSubmitButton();
+  }
 
   Future<void> pumpEmailPasswordSignInContents({
     required FakeAuthRepository authRepository,
@@ -50,7 +70,7 @@ class AuthRobot {
     final primaryButton = find.byKey(kPrimaryButtonKey);
     expect(primaryButton, findsOneWidget);
     await tester.tap(primaryButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   Future<void> enterEmail(String email) async {
@@ -85,7 +105,7 @@ class AuthRobot {
     final logoutButton = find.text('Logout');
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   void expectLogoutDialogFound() {
@@ -109,7 +129,7 @@ class AuthRobot {
     final logoutButton = find.byKey(kAlertDialogKey);
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   void expectErrorAlertFound() {
