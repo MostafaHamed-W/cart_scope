@@ -1,22 +1,34 @@
 import 'package:cart_scope/src/app.dart';
 import 'package:cart_scope/src/constants/test_products.dart';
+import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
 import 'package:cart_scope/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/features/products/presentation/products_list/product_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'features/authentication/auth_robot.dart';
+import 'goldens/golden_robot.dart';
 
 class Robot {
+  Robot(this.tester)
+      : auth = AuthRobot(tester),
+        golden = GoldenRobot(tester);
   WidgetTester tester;
-  Robot(this.tester) : auth = AuthRobot(tester);
-
   final AuthRobot auth;
+  final GoldenRobot golden;
 
-  Future<void> pumpAppScreen() async {
+  Future<void> pumpMyApp() async {
+    // Override repositories
+    final productsRepository = FakeProductRepository(isDelayed: false);
+    final authRepository = FakeAuthRepository(isDelayed: false);
     await tester.pumpWidget(
-      const ProviderScope(
-        child: CartScope(),
+      ProviderScope(
+        overrides: [
+          productRepositoryProvider.overrideWithValue(productsRepository),
+          authRepositoryProvider.overrideWithValue(authRepository),
+        ],
+        child: const CartScope(),
       ),
     );
     await tester.pumpAndSettle();

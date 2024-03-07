@@ -4,14 +4,14 @@ import 'package:integration_test/integration_test.dart';
 import '../test/src/robot.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized(); // NEW
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets(
     'auth flow test',
     (tester) async {
       // Mock network images
       await mockNetworkImagesFor(() async {
         final r = Robot(tester);
-        await r.pumpAppScreen();
+        await r.pumpMyApp();
         await r.expectFindAllProductCards();
         await r.openPopUpMenu();
         await r.auth.openEmailAndPasswordSigninScreen();

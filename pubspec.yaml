@@ -41,11 +41,11 @@ dependencies:
   go_router: 7.0.0
   intl: any
   mocktail: ^0.3.0
+  network_image_mock: ^2.1.1
   riverpod_annotation: ^2.3.4
   rxdart: 0.27.7
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
-  network_image_mock: ^2.1.1
 
 dev_dependencies:
   flutter_lints: 2.0.1

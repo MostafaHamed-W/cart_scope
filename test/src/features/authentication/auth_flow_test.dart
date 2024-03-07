@@ -8,21 +8,21 @@ void main() {
     'auth flow test',
     (tester) async {
       // Mock network images
-      mockNetworkImagesFor(() async {
-        final r = Robot(tester);
-        await r.pumpAppScreen();
-        await r.expectFindAllProductCards();
-        await r.openPopUpMenu();
-        await r.auth.openEmailAndPasswordSigninScreen();
-        await r.auth.signIntWithEmailAndPasswordScreen('wafy@gmail.com', '1234');
-        await r.openPopUpMenu();
-        await r.auth.openAccountSreen();
-        expect(find.text('uid'), findsOneWidget);
-        await r.openPopUpMenu();
-        await r.auth.tapLogoutButton();
-        await r.auth.tapDialogLogoutButton();
-        await r.expectFindAllProductCards();
-      });
+      // mockNetworkImagesFor(() async {
+      final r = Robot(tester);
+      await r.pumpMyApp();
+      await r.expectFindAllProductCards();
+      await r.openPopUpMenu();
+      await r.auth.openEmailAndPasswordSigninScreen();
+      await r.auth.signIntWithEmailAndPasswordScreen('wafy@gmail.com', '1234');
+      await r.openPopUpMenu();
+      await r.auth.openAccountSreen();
+      expect(find.text('uid'), findsOneWidget);
+      await r.openPopUpMenu();
+      await r.auth.tapLogoutButton();
+      await r.auth.tapDialogLogoutButton();
+      await r.expectFindAllProductCards();
+      // });
     },
   );
 }
