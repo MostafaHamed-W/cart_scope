@@ -1,5 +1,4 @@
 // ignore: depend_on_referenced_packages
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +30,8 @@ class GoldenRobot {
       ),
     );
 
-    final bytes = Future<ByteData>.value(iconFont.readAsBytesSync().buffer.asByteData());
+    final bytes =
+        Future<ByteData>.value(iconFont.readAsBytesSync().buffer.asByteData());
 
     final fontLoader = FontLoader('MaterialIcons')..addFont(bytes);
     await fontLoader.load();

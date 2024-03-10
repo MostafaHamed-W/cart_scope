@@ -1,8 +1,6 @@
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
-import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
-import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/cart/presentation/add_to_cart/add_to_cart_widget.dart';
-import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
+import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/features/products/presentation/home_app_bar/home_app_bar.dart';
 import 'package:cart_scope/src/features/products/presentation/product_screen/leave_review_action.dart';
 import 'package:cart_scope/src/features/products/presentation/product_screen/product_average_rating.dart';
@@ -28,10 +26,10 @@ class ProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Consumer(
-        builder: (context, ref, child) {
+        builder: (context, ref, _) {
           final productValue = ref.watch(productProvider(productId));
           return AsyncValueWidget<Product?>(
-            asyncValue: productValue,
+            value: productValue,
             data: (product) => product == null
                 ? EmptyPlaceholderWidget(
                     message: 'Product not found'.hardcoded,
@@ -55,17 +53,15 @@ class ProductScreen extends StatelessWidget {
 /// Shows all the product details along with actions to:
 /// - leave a review
 /// - add to cart
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends ConsumerWidget {
   const ProductDetails({super.key, required this.product});
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
-    final priceFormatted = kCurrencyFormatter.format(product.price);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startContent: Card(
-        color: Colors.white,
-        surfaceTintColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           child: CustomImage(imageUrl: product.imageUrl),

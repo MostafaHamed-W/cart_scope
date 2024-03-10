@@ -3,7 +3,6 @@ import 'package:cart_scope/src/features/authentication/data/fake_auth_repository
 import 'package:cart_scope/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:cart_scope/src/features/products/presentation/home_app_bar/shopping_cart_icon.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
-import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/action_text_button.dart';
@@ -21,8 +20,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // We can use .value with AsyncValue? to get the value
-    // The value either null or have a value of the provider type
     final user = ref.watch(authStateChangesProvider).value;
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.

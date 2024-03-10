@@ -15,21 +15,20 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(
-        accountScreenControllerProvider, (_, state) => state.showAlertDialogOnError(context));
-
+    ref.listen<AsyncValue>(
+      accountScreenControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: state.isLoading ? const CircularProgressIndicator() : Text('Account'.hardcoded),
         actions: [
-          state.isLoading
-              ? const SizedBox()
-              : ActionTextButton(
-                  text: 'Logout'.hardcoded,
-                  onPressed: () async {
-                    // get the navigator before the async gap
-
+          ActionTextButton(
+            text: 'Logout'.hardcoded,
+            onPressed: state.isLoading
+                ? null
+                : () async {
                     final logout = await showAlertDialog(
                       context: context,
                       title: 'Are you sure?'.hardcoded,
@@ -40,7 +39,7 @@ class AccountScreen extends ConsumerWidget {
                       ref.read(accountScreenControllerProvider.notifier).signOut();
                     }
                   },
-                ),
+          ),
         ],
       ),
       body: const ResponsiveCenter(
@@ -58,7 +57,6 @@ class UserDataTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context).textTheme.subtitle2!;
-
     final user = ref.watch(authStateChangesProvider).value;
     return DataTable(
       columns: [

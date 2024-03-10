@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/string_validators.dart';
@@ -23,6 +22,7 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
 
   final EmailPasswordSignInFormType formType;
   final AsyncValue<void> value;
+
   bool get isLoading => value.isLoading;
 
   EmailPasswordSignInState copyWith({
@@ -39,10 +39,10 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
   String toString() => 'EmailPasswordSignInState(formType: $formType, value: $value)';
 
   @override
-  bool operator ==(covariant EmailPasswordSignInState other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.formType == formType && other.value == value;
+    return other is EmailPasswordSignInState && other.formType == formType && other.value == value;
   }
 
   @override

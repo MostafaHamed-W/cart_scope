@@ -1,40 +1,24 @@
-import 'dart:developer';
-
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
+import 'package:cart_scope/src/common_widgets/custom_text_button.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/features/products/presentation/home_app_bar/more_menu_button.dart';
-import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../../../mocks.dart';
 
 class AuthRobot {
   AuthRobot(this.tester);
   final WidgetTester tester;
 
-  Future<void> openAccountSreen() async {
-    final finder = find.byKey(MoreMenuButton.accountKey);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> openEmailAndPasswordSigninScreen() async {
+  Future<void> openEmailPasswordSignInScreen() async {
     final finder = find.byKey(MoreMenuButton.signInKey);
     expect(finder, findsOneWidget);
     await tester.tap(finder);
     await tester.pumpAndSettle();
-  }
-
-  Future<void> signIntWithEmailAndPasswordScreen(String email, String password) async {
-    await enterEmail(email);
-    await enterPassword(password);
-    await tapEmailAndPasswordSubmitButton();
   }
 
   Future<void> pumpEmailPasswordSignInContents({
@@ -59,17 +43,17 @@ class AuthRobot {
     );
   }
 
-  Future<void> tapUpdateFormButton() async {
-    final registerButton = find.byKey(kUpdateFormTypeKey);
-    expect(registerButton, findsOneWidget);
-    await tester.tap(registerButton);
-    await tester.pump();
-  }
-
   Future<void> tapEmailAndPasswordSubmitButton() async {
-    final primaryButton = find.byKey(kPrimaryButtonKey);
+    final primaryButton = find.byType(PrimaryButton);
     expect(primaryButton, findsOneWidget);
     await tester.tap(primaryButton);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> tapFormToggleButton() async {
+    final toggleButton = find.byType(CustomTextButton);
+    expect(toggleButton, findsOneWidget);
+    await tester.tap(toggleButton);
     await tester.pumpAndSettle();
   }
 
@@ -83,6 +67,29 @@ class AuthRobot {
     final passwordField = find.byKey(EmailPasswordSignInScreen.passwordKey);
     expect(passwordField, findsOneWidget);
     await tester.enterText(passwordField, password);
+  }
+
+  void expectCreateAccountButtonFound() {
+    final dialogTitle = find.text('Create an account');
+    expect(dialogTitle, findsOneWidget);
+  }
+
+  void expectCreateAccountButtonNotFound() {
+    final dialogTitle = find.text('Create an account');
+    expect(dialogTitle, findsNothing);
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    await enterEmail('test@test.com');
+    await enterPassword('test1234');
+    await tapEmailAndPasswordSubmitButton();
+  }
+
+  Future<void> openAccountScreen() async {
+    final finder = find.byKey(MoreMenuButton.accountKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
   }
 
   Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {
@@ -105,7 +112,7 @@ class AuthRobot {
     final logoutButton = find.text('Logout');
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   void expectLogoutDialogFound() {
@@ -126,10 +133,10 @@ class AuthRobot {
   }
 
   Future<void> tapDialogLogoutButton() async {
-    final logoutButton = find.byKey(kAlertDialogKey);
+    final logoutButton = find.byKey(kDialogDefaultKey);
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   void expectErrorAlertFound() {

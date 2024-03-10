@@ -5,9 +5,10 @@ import 'package:cart_scope/src/common_widgets/custom_image.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:cart_scope/src/utils/currency_formatter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Used to show a single product inside a card.
-class ProductCard extends StatelessWidget {
+class ProductCard extends ConsumerWidget {
   const ProductCard({super.key, required this.product, this.onPressed});
   final Product product;
   final VoidCallback? onPressed;
@@ -16,13 +17,9 @@ class ProductCard extends StatelessWidget {
   static const productCardKey = Key('product-card');
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Inject formatter
-    final priceFormatted = kCurrencyFormatter.format(product.price);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return Card(
-      /// TODO: Change product background color
-      color: Colors.white,
-      surfaceTintColor: Colors.white,
       child: InkWell(
         key: productCardKey,
         onTap: onPressed,

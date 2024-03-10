@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
-import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
-import 'package:cart_scope/src/constants/test_products.dart';
-import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
+import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:cart_scope/src/features/products/presentation/products_list/product_card.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
@@ -20,9 +18,9 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsRepository = ref.watch(productListStreamProvider);
+    final productsListValue = ref.watch(productsListStreamProvider);
     return AsyncValueWidget<List<Product>>(
-      asyncValue: productsRepository,
+      value: productsListValue,
       data: (products) => products.isEmpty
           ? Center(
               child: Text(

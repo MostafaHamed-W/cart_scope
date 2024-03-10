@@ -1,14 +1,8 @@
-import 'dart:math';
-
-import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
-import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../mocks.dart';
+import '../../../../mocks.dart';
 import '../../auth_robot.dart';
 
 void main() {
@@ -61,8 +55,113 @@ void main() {
             testEmail,
             testPassword,
           )).called(1);
-      // r.expectErrorAlertNotFound();
+      r.expectErrorAlertNotFound();
       expect(didSignIn, true);
+    });
+  });
+
+  group('register', () {
+    testWidgets('''
+        Given formType is register
+        When tap on the sign-in button
+        Then createUserWithEmailAndPassword is not called
+        ''', (tester) async {
+      final r = AuthRobot(tester);
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.register,
+      );
+      await r.tapEmailAndPasswordSubmitButton();
+      verifyNever(() => authRepository.createUserWithEmailAndPassword(
+            any(),
+            any(),
+          ));
+    });
+    testWidgets('''
+        Given formType is register
+        When enter valid email
+        And enter password that is too short
+        And tap on the sign-in button
+        Then createUserWithEmailAndPassword is called
+        And onSignedIn callback is called
+        And error alert is not shown
+        ''', (tester) async {
+      final r = AuthRobot(tester);
+      when(() => authRepository.createUserWithEmailAndPassword(
+            testEmail,
+            testPassword,
+          )).thenAnswer((_) => Future.value());
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.register,
+      );
+      await r.enterEmail(testEmail);
+      await r.enterPassword(testPassword);
+      await r.tapEmailAndPasswordSubmitButton();
+      verifyNever(() => authRepository.createUserWithEmailAndPassword(
+            any(),
+            any(),
+          ));
+    });
+    testWidgets('''
+        Given formType is register
+        When enter valid email
+        And enter password that is long enough
+        And tap on the sign-in button
+        Then createUserWithEmailAndPassword is called
+        And onSignedIn callback is called
+        And error alert is not shown
+        ''', (tester) async {
+      var didSignIn = false;
+      final r = AuthRobot(tester);
+      const password = 'test1234'; // at least 8 characters to pass validation
+      when(() => authRepository.createUserWithEmailAndPassword(
+            testEmail,
+            password,
+          )).thenAnswer((_) => Future.value());
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.register,
+        onSignedIn: () => didSignIn = true,
+      );
+      await r.enterEmail(testEmail);
+      await r.enterPassword(password);
+      await r.tapEmailAndPasswordSubmitButton();
+      verify(() => authRepository.createUserWithEmailAndPassword(
+            testEmail,
+            password,
+          )).called(1);
+      r.expectErrorAlertNotFound();
+      expect(didSignIn, true);
+    });
+  });
+
+  group('updateFormType', () {
+    testWidgets('''
+        Given formType is sign in
+        When tap on the form toggle button
+        Then create account button is found
+        ''', (tester) async {
+      final r = AuthRobot(tester);
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.signIn,
+      );
+      await r.tapFormToggleButton();
+      r.expectCreateAccountButtonFound();
+    });
+    testWidgets('''
+        Given formType is sign in
+        When tap on the form toggle button
+        Then create account button is found
+        ''', (tester) async {
+      final r = AuthRobot(tester);
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.register,
+      );
+      await r.tapFormToggleButton();
+      r.expectCreateAccountButtonNotFound();
     });
   });
 }

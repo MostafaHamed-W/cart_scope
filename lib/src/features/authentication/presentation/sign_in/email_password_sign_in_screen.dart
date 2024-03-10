@@ -1,10 +1,8 @@
-import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
-import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_screen_controller.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_controller.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/string_validators.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/async_value_ui.dart';
-import 'package:cart_scope/src/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cart_scope/src/common_widgets/custom_text_button.dart';
@@ -30,7 +28,6 @@ class EmailPasswordSignInScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Sign In'.hardcoded)),
       body: EmailPasswordSignInContents(
         formType: formType,
-        // onSignedIn: () => Navigator.of(context).pop(),
       ),
     );
   }
@@ -67,9 +64,7 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
   // For more details on how this is implemented, see:
   // https://codewithandrea.com/articles/flutter-text-field-form-validation/
   var _submitted = false;
-  // local variable representing the form type and loading state
-  // we remove it to read state from controller
-  // late var _state = EmailPasswordSignInState(formType: widget.formType);
+
   @override
   void dispose() {
     // * TextEditingControllers should be always disposed
@@ -83,7 +78,7 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
     setState(() => _submitted = true);
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      final controller = ref.read(signInScreenControllerProvider(widget.formType).notifier);
+      final controller = ref.read(emailPasswordSignInControllerProvider(widget.formType).notifier);
       final success = await controller.submit(email, password);
       if (success) {
         widget.onSignedIn?.call();
@@ -107,21 +102,20 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
 
   void _updateFormType(EmailPasswordSignInFormType formType) {
     // * Toggle between register and sign in form
-    // setState(() => _state = _state.copyWith(formType: formType));
-    ref.read(signInScreenControllerProvider(widget.formType).notifier).updateFormType(formType);
+    ref
+        .read(emailPasswordSignInControllerProvider(widget.formType).notifier)
+        .updateFormType(formType);
     // * Clear the password field when doing so
     _passwordController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-        signInScreenControllerProvider(widget.formType).select(
-          (state) => state.value,
-        ), (_, state) {
-      state.showAlertDialogOnError(context);
-    });
-    final state = ref.watch(signInScreenControllerProvider(widget.formType));
+    ref.listen<AsyncValue>(
+      emailPasswordSignInControllerProvider(widget.formType).select((state) => state.value),
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(emailPasswordSignInControllerProvider(widget.formType));
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -171,14 +165,12 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
               ),
               gapH8,
               PrimaryButton(
-                key: kPrimaryButtonKey,
                 text: state.primaryButtonText,
                 isLoading: state.isLoading,
                 onPressed: state.isLoading ? null : () => _submit(state),
               ),
               gapH8,
               CustomTextButton(
-                key: kUpdateFormTypeKey,
                 text: state.secondaryButtonText,
                 onPressed:
                     state.isLoading ? null : () => _updateFormType(state.secondaryActionFormType),

@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
-import 'package:cart_scope/src/common_widgets/error_message_widget.dart';
-import 'package:cart_scope/src/common_widgets/shimmers_layout.dart';
-import 'package:cart_scope/src/features/products/data/fake_product_repository.dart';
+import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
+import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/custom_image.dart';
 import 'package:cart_scope/src/common_widgets/item_quantity_selector.dart';
@@ -13,7 +13,6 @@ import 'package:cart_scope/src/constants/app_sizes.dart';
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 /// Shows a shopping cart item (or loading/error UI if needed)
 class ShoppingCartItem extends ConsumerWidget {
@@ -34,7 +33,8 @@ class ShoppingCartItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productValue = ref.watch(productProvider(item.productId));
-    return productValue.when(
+    return AsyncValueWidget<Product?>(
+      value: productValue,
       data: (product) => Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
         child: Card(
@@ -49,14 +49,12 @@ class ShoppingCartItem extends ConsumerWidget {
           ),
         ),
       ),
-      error: (error, st) => ErrorMessageWidget(error.toString()),
-      loading: () => const CutomShimmerLayout(),
     );
   }
 }
 
 /// Shows a shopping cart item for a given product
-class ShoppingCartItemContents extends StatelessWidget {
+class ShoppingCartItemContents extends ConsumerWidget {
   const ShoppingCartItemContents({
     super.key,
     required this.product,
@@ -73,10 +71,8 @@ class ShoppingCartItemContents extends StatelessWidget {
   static Key deleteKey(int index) => Key('delete-$index');
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: error handling
-    // TODO: Inject formatter
-    final priceFormatted = NumberFormat.simpleCurrency().format(product.price);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -92,28 +88,10 @@ class ShoppingCartItemContents extends StatelessWidget {
           gapH24,
           isEditable
               // show the quantity selector and a delete button
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ItemQuantitySelector(
-                      quantity: item.quantity,
-                      maxQuantity: min(product.availableQuantity, 10),
-                      itemIndex: itemIndex,
-                      // TODO: Implement onChanged
-                      onChanged: (value) {
-                        showNotImplementedAlertDialog(context: context);
-                      },
-                    ),
-                    IconButton(
-                      key: deleteKey(itemIndex),
-                      icon: Icon(Icons.delete, color: Colors.red[700]),
-                      // TODO: Implement onPressed
-                      onPressed: () {
-                        showNotImplementedAlertDialog(context: context);
-                      },
-                    ),
-                    const Spacer(),
-                  ],
+              ? EditOrRemoveItemWidget(
+                  product: product,
+                  item: item,
+                  itemIndex: itemIndex,
                 )
               // else, show the quantity as a read-only label
               : Padding(
@@ -124,6 +102,49 @@ class ShoppingCartItemContents extends StatelessWidget {
                 ),
         ],
       ),
+    );
+  }
+}
+
+// custom widget to show the quantity selector and a delete button
+class EditOrRemoveItemWidget extends ConsumerWidget {
+  const EditOrRemoveItemWidget({
+    super.key,
+    required this.product,
+    required this.item,
+    required this.itemIndex,
+  });
+  final Product product;
+  final Item item;
+  final int itemIndex;
+
+  // * Keys for testing using find.byKey()
+  static Key deleteKey(int index) => Key('delete-$index');
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ItemQuantitySelector(
+          quantity: item.quantity,
+          maxQuantity: min(product.availableQuantity, 10),
+          itemIndex: itemIndex,
+          // TODO: Implement onChanged
+          onChanged: (value) {
+            showNotImplementedAlertDialog(context: context);
+          },
+        ),
+        IconButton(
+          key: deleteKey(itemIndex),
+          icon: Icon(Icons.delete, color: Colors.red[700]),
+          // TODO: Implement onPressed
+          onPressed: () {
+            showNotImplementedAlertDialog(context: context);
+          },
+        ),
+        const Spacer(),
+      ],
     );
   }
 }
