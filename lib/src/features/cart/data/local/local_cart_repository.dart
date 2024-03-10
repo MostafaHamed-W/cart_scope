@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/features/cart/data/local/sembast_cart_rebository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
 
@@ -11,6 +12,9 @@ abstract class LocalCartRepository {
 }
 
 final localCartRepositoryProvider = Provider<LocalCartRepository>((ref) {
+  // we Cannot do this because The return type of makeDefault is 'Future<SembastCartRepository>'
+  // so we choose override approach
+  // return SembastCartRepository.makeDefault();
   // * Override this in the main method
   throw UnimplementedError();
 });

@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:cart_scope/src/app.dart';
+import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
+import 'package:cart_scope/src/features/cart/data/local/sembast_cart_rebository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,18 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   // * Entry point of the app
-  runApp(const ProviderScope(child: CartScope()));
+
+  // Override local cart provider before run app
+  final localCartRepository = await SembastCartRepository.makeDefault();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        localCartRepositoryProvider.overrideWithValue(localCartRepository),
+      ],
+      child: const CartScope(),
+    ),
+  );
   // *to make pushNamed or push effects the url we do this afer V8.0.0
   // GoRouter.optionURLReflectsImperativeAPIs = true;
 }
