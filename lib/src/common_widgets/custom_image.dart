@@ -9,13 +9,13 @@ class CustomImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Use [CachedNetworkImage] if the url points to a remote resource
-    // return CachedNetworkImage(
-    //   imageUrl: imageUrl,
-    // );
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+    );
     // return Image.network(
     //   // height: 200,
     //   imageUrl,
     // );
-    return Image.asset(imageUrl);
+    // return Image.asset(imageUrl);
   }
 }
