@@ -156,7 +156,8 @@ class AddressFormField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       keyboardType: keyboardType,
       keyboardAppearance: Brightness.light,
-      validator: (value) => value?.isNotEmpty == true ? null : 'Can\'t be empty'.hardcoded,
+      validator: (value) =>
+          value?.isNotEmpty == true ? null : 'Can\'t be empty'.hardcoded,
     );
   }
 }

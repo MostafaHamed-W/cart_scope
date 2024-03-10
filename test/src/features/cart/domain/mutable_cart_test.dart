@@ -6,7 +6,8 @@ import 'package:cart_scope/src/features/cart/domain/mutable_cart.dart';
 void main() {
   group('set item', () {
     test('empty cart - set item with quantity', () {
-      final cart = const Cart().setItem(const Item(productId: '1', quantity: 2));
+      final cart =
+          const Cart().setItem(const Item(productId: '1', quantity: 2));
       expect(cart.items, {'1': 2});
     });
     test('cart with same item - override quantity', () {
@@ -28,7 +29,8 @@ void main() {
 
   group('add item', () {
     test('empty cart - add item', () {
-      final cart = const Cart().addItem(const Item(productId: '1', quantity: 1));
+      final cart =
+          const Cart().addItem(const Item(productId: '1', quantity: 1));
       expect(cart.items, {'1': 1});
     });
     test('empty cart - add two items', () {
@@ -60,7 +62,9 @@ void main() {
       });
     });
     test('cart with one item - add two items of which one matching', () {
-      final cart = const Cart().addItem(const Item(productId: '1', quantity: 1)).addItems([
+      final cart = const Cart()
+          .addItem(const Item(productId: '1', quantity: 1))
+          .addItems([
         const Item(productId: '1', quantity: 1),
         const Item(productId: '2', quantity: 1),
       ]);
@@ -70,7 +74,9 @@ void main() {
       });
     });
     test('cart with one item - add two new items', () {
-      final cart = const Cart().addItem(const Item(productId: '1', quantity: 1)).addItems([
+      final cart = const Cart()
+          .addItem(const Item(productId: '1', quantity: 1))
+          .addItems([
         const Item(productId: '2', quantity: 1),
         const Item(productId: '3', quantity: 1),
       ]);
@@ -87,13 +93,15 @@ void main() {
       expect(cart.items, {});
     });
     test('empty cart - remove matching item', () {
-      final cart =
-          const Cart().addItem(const Item(productId: '1', quantity: 1)).removeItemById('1');
+      final cart = const Cart()
+          .addItem(const Item(productId: '1', quantity: 1))
+          .removeItemById('1');
       expect(cart.items, {});
     });
     test('empty cart - remove non-matching item', () {
-      final cart =
-          const Cart().addItem(const Item(productId: '2', quantity: 1)).removeItemById('1');
+      final cart = const Cart()
+          .addItem(const Item(productId: '2', quantity: 1))
+          .removeItemById('1');
       expect(cart.items, {'2': 1});
     });
   });

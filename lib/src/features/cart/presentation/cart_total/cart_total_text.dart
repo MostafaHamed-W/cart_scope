@@ -10,7 +10,8 @@ class CartTotalText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: Read from data source
     const cartTotal = 104.0;
-    final totalFormatted = ref.watch(currencyFormatterProvider).format(cartTotal);
+    final totalFormatted =
+        ref.watch(currencyFormatterProvider).format(cartTotal);
     return Text(
       'Total: $totalFormatted',
       style: Theme.of(context).textTheme.headline5,

@@ -9,8 +9,10 @@ enum EmailPasswordSignInFormType { signIn, register }
 /// Mixin class to be used for client-side email & password validation
 mixin EmailAndPasswordValidators {
   final StringValidator emailSubmitValidator = EmailSubmitRegexValidator();
-  final StringValidator passwordRegisterSubmitValidator = MinLengthStringValidator(8);
-  final StringValidator passwordSignInSubmitValidator = NonEmptyStringValidator();
+  final StringValidator passwordRegisterSubmitValidator =
+      MinLengthStringValidator(8);
+  final StringValidator passwordSignInSubmitValidator =
+      NonEmptyStringValidator();
 }
 
 /// State class for the email & password form.
@@ -36,13 +38,16 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
   }
 
   @override
-  String toString() => 'EmailPasswordSignInState(formType: $formType, value: $value)';
+  String toString() =>
+      'EmailPasswordSignInState(formType: $formType, value: $value)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is EmailPasswordSignInState && other.formType == formType && other.value == value;
+    return other is EmailPasswordSignInState &&
+        other.formType == formType &&
+        other.value == value;
   }
 
   @override
@@ -112,15 +117,17 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
 
   String? emailErrorText(String email) {
     final bool showErrorText = !canSubmitEmail(email);
-    final String errorText =
-        email.isEmpty ? 'Email can\'t be empty'.hardcoded : 'Invalid email'.hardcoded;
+    final String errorText = email.isEmpty
+        ? 'Email can\'t be empty'.hardcoded
+        : 'Invalid email'.hardcoded;
     return showErrorText ? errorText : null;
   }
 
   String? passwordErrorText(String password) {
     final bool showErrorText = !canSubmitPassword(password);
-    final String errorText =
-        password.isEmpty ? 'Password can\'t be empty'.hardcoded : 'Password is too short'.hardcoded;
+    final String errorText = password.isEmpty
+        ? 'Password can\'t be empty'.hardcoded
+        : 'Password is too short'.hardcoded;
     return showErrorText ? errorText : null;
   }
 }

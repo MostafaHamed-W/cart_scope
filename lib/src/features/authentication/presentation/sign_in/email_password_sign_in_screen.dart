@@ -47,10 +47,12 @@ class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   /// The default form type to use.
   final EmailPasswordSignInFormType formType;
   @override
-  ConsumerState<EmailPasswordSignInContents> createState() => _EmailPasswordSignInContentsState();
+  ConsumerState<EmailPasswordSignInContents> createState() =>
+      _EmailPasswordSignInContentsState();
 }
 
-class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignInContents> {
+class _EmailPasswordSignInContentsState
+    extends ConsumerState<EmailPasswordSignInContents> {
   final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
   final _emailController = TextEditingController();
@@ -78,7 +80,8 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
     setState(() => _submitted = true);
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      final controller = ref.read(emailPasswordSignInControllerProvider(widget.formType).notifier);
+      final controller = ref.read(
+          emailPasswordSignInControllerProvider(widget.formType).notifier);
       final success = await controller.submit(email, password);
       if (success) {
         widget.onSignedIn?.call();
@@ -112,10 +115,12 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
-      emailPasswordSignInControllerProvider(widget.formType).select((state) => state.value),
+      emailPasswordSignInControllerProvider(widget.formType)
+          .select((state) => state.value),
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(emailPasswordSignInControllerProvider(widget.formType));
+    final state =
+        ref.watch(emailPasswordSignInControllerProvider(widget.formType));
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -135,14 +140,16 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) => !_submitted ? null : state.emailErrorText(email ?? ''),
+                validator: (email) =>
+                    !_submitted ? null : state.emailErrorText(email ?? ''),
                 autocorrect: false,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 keyboardAppearance: Brightness.light,
                 onEditingComplete: () => _emailEditingComplete(state),
                 inputFormatters: <TextInputFormatter>[
-                  ValidatorInputFormatter(editingValidator: EmailEditingRegexValidator()),
+                  ValidatorInputFormatter(
+                      editingValidator: EmailEditingRegexValidator()),
                 ],
               ),
               gapH8,
@@ -155,8 +162,9 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (password) =>
-                    !_submitted ? null : state.passwordErrorText(password ?? ''),
+                validator: (password) => !_submitted
+                    ? null
+                    : state.passwordErrorText(password ?? ''),
                 obscureText: true,
                 autocorrect: false,
                 textInputAction: TextInputAction.done,
@@ -172,8 +180,9 @@ class _EmailPasswordSignInContentsState extends ConsumerState<EmailPasswordSignI
               gapH8,
               CustomTextButton(
                 text: state.secondaryButtonText,
-                onPressed:
-                    state.isLoading ? null : () => _updateFormType(state.secondaryActionFormType),
+                onPressed: state.isLoading
+                    ? null
+                    : () => _updateFormType(state.secondaryActionFormType),
               ),
             ],
           ),

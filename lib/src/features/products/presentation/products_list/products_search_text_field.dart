@@ -6,7 +6,8 @@ class ProductsSearchTextField extends StatefulWidget {
   const ProductsSearchTextField({super.key});
 
   @override
-  State<ProductsSearchTextField> createState() => _ProductsSearchTextFieldState();
+  State<ProductsSearchTextField> createState() =>
+      _ProductsSearchTextFieldState();
 }
 
 class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {

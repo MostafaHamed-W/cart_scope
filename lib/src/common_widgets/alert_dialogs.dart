@@ -72,7 +72,8 @@ Future<void> showExceptionAlertDialog({
       defaultActionText: 'OK'.hardcoded,
     );
 
-Future<void> showNotImplementedAlertDialog({required BuildContext context}) => showAlertDialog(
+Future<void> showNotImplementedAlertDialog({required BuildContext context}) =>
+    showAlertDialog(
       context: context,
       title: 'Not implemented'.hardcoded,
     );

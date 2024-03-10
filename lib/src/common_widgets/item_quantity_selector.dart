@@ -40,8 +40,9 @@ class ItemQuantitySelector extends StatelessWidget {
           IconButton(
             key: decrementKey(itemIndex),
             icon: const Icon(Icons.remove),
-            onPressed:
-                onChanged != null && quantity > 1 ? () => onChanged!.call(quantity - 1) : null,
+            onPressed: onChanged != null && quantity > 1
+                ? () => onChanged!.call(quantity - 1)
+                : null,
           ),
           SizedBox(
             width: 30.0,

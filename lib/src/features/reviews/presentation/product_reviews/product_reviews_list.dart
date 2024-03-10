@@ -28,7 +28,8 @@ class ProductReviewsList extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) => ResponsiveCenter(
           maxContentWidth: Breakpoint.tablet,
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16, vertical: Sizes.p8),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.p16, vertical: Sizes.p8),
           child: ProductReviewCard(reviews[index]),
         ),
         childCount: reviews.length,

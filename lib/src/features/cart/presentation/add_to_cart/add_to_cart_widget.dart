@@ -49,7 +49,9 @@ class AddToCartWidget extends StatelessWidget {
           onPressed: () {
             showNotImplementedAlertDialog(context: context);
           },
-          text: availableQuantity > 0 ? 'Add to Cart'.hardcoded : 'Out of Stock'.hardcoded,
+          text: availableQuantity > 0
+              ? 'Add to Cart'.hardcoded
+              : 'Out of Stock'.hardcoded,
         ),
         if (product.availableQuantity > 0 && availableQuantity == 0) ...[
           gapH8,

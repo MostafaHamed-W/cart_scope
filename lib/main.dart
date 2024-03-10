@@ -4,14 +4,13 @@ import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // turn off the # in the URLs on the web
   // usePathUrlStrategy();
-  // * Register error handlers. For more info, see:
+  // * Register error handlers. For more info, see:dart format .
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   // * Entry point of the app
