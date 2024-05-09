@@ -12,7 +12,8 @@ abstract class LocalCartRepository {
 }
 
 final localCartRepositoryProvider = Provider<LocalCartRepository>((ref) {
-  // we Cannot do this because The return type of makeDefault is 'Future<SembastCartRepository>'
+  // we Cannot do this because The return type of makeDefault is 'FutureProvider<SembastCartRepository>'
+  // and if we made it FutureProvider we will be forced to deal with Asyncvalue. ... every time we watch the provider
   // so we choose override approach
   // return SembastCartRepository.makeDefault();
   // * Override this in the main method
