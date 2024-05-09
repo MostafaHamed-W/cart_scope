@@ -44,7 +44,13 @@ class SembastCartRepository extends LocalCartRepository {
 
   @override
   Stream<Cart> watchCart() {
-    // TODO: implement watchCart
-    throw UnimplementedError();
+    final record = store.record(cartItemsKey);
+    return record.onSnapshot(db).cast().map((snapshot) {
+      if (snapshot != null) {
+        return Cart.fromJson(snapshot.value);
+      } else {
+        return const Cart();
+      }
+    });
   }
 }
