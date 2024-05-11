@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 
@@ -33,6 +35,24 @@ class Cart {
 
   @override
   String toString() => 'Cart(items: $items)';
+
+  @override
+  bool operator ==(covariant Cart other) {
+    if (identical(this, other)) return true;
+
+    return mapEquals(other.items, items);
+  }
+
+  @override
+  int get hashCode => items.hashCode;
+
+  Cart copyWith({
+    Map<ProductID, int>? items,
+  }) {
+    return Cart(
+      items ?? this.items,
+    );
+  }
 }
 
 extension CartItems on Cart {
