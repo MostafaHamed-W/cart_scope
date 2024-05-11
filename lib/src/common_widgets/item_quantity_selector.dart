@@ -16,12 +16,9 @@ class ItemQuantitySelector extends StatelessWidget {
   final ValueChanged<int>? onChanged;
 
   // * Keys for testing using find.byKey()
-  static Key decrementKey([int? index]) =>
-      index != null ? Key('decrement-$index') : const Key('decrement');
-  static Key quantityKey([int? index]) =>
-      index != null ? Key('quantity-$index') : const Key('quantity');
-  static Key incrementKey([int? index]) =>
-      index != null ? Key('increment-$index') : const Key('increment');
+  static Key decrementKey([int? index]) => index != null ? Key('decrement-$index') : const Key('decrement');
+  static Key quantityKey([int? index]) => index != null ? Key('quantity-$index') : const Key('quantity');
+  static Key incrementKey([int? index]) => index != null ? Key('increment-$index') : const Key('increment');
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +37,7 @@ class ItemQuantitySelector extends StatelessWidget {
           IconButton(
             key: decrementKey(itemIndex),
             icon: const Icon(Icons.remove),
-            onPressed: onChanged != null && quantity > 1
-                ? () => onChanged!.call(quantity - 1)
-                : null,
+            onPressed: onChanged != null && quantity > 1 ? () => onChanged!.call(quantity - 1) : null,
           ),
           SizedBox(
             width: 30.0,
@@ -56,9 +51,7 @@ class ItemQuantitySelector extends StatelessWidget {
           IconButton(
             key: incrementKey(itemIndex),
             icon: const Icon(Icons.add),
-            onPressed: onChanged != null && quantity < maxQuantity
-                ? () => onChanged!.call(quantity + 1)
-                : null,
+            onPressed: onChanged != null && quantity < maxQuantity ? () => onChanged!.call(quantity + 1) : null,
           ),
         ],
       ),

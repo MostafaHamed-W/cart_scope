@@ -11,9 +11,10 @@ class AddToCartController extends StateNotifier<AsyncValue<int>> {
     state = AsyncData(quantity);
   }
 
-  void addItemToCart(ProductID productID) async {
-    final item = Item(productId: productID, quantity: state.value!);
+  Future<void> addItem(ProductID productId) async {
+    final item = Item(productId: productId, quantity: state.value!);
     state = const AsyncLoading<int>().copyWithPrevious(state);
+    print(cartService.addItem(item));
     final value = await AsyncValue.guard(() => cartService.addItem(item));
     if (value.hasError) {
       state = AsyncError(value.error!, StackTrace.current);
@@ -25,5 +26,7 @@ class AddToCartController extends StateNotifier<AsyncValue<int>> {
 
 // TODO: Should this use autoDispose?
 final addToCartControllerProvider = StateNotifierProvider<AddToCartController, AsyncValue<int>>((ref) {
-  return AddToCartController(cartService: ref.watch(cartServiceProvider));
+  return AddToCartController(
+    cartService: ref.watch(cartServiceProvider),
+  );
 });
