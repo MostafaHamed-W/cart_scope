@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/features/cart/presentation/add_to_cart/addToCartController.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/item_quantity_selector.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
@@ -18,7 +19,10 @@ class AddToCartWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read from data source
+    ref.listen<AsyncValue<int>>(
+      addToCartControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     final availableQuantity = product.availableQuantity;
     final state = ref.watch(addToCartControllerProvider);
     print(state.toString());
@@ -31,17 +35,13 @@ class AddToCartWidget extends ConsumerWidget {
           children: [
             Text('Quantity:'.hardcoded),
             ItemQuantitySelector(
-              // TODO: plug in state
               quantity: state.value!,
               // let the user choose up to the available quantity or
               // 10 items at most
               maxQuantity: min(availableQuantity, 10),
-              // TODO: Implement onChanged
               onChanged: state.isLoading
                   ? null
-                  : (quantity) {
-                      ref.read(addToCartControllerProvider.notifier).updateQuantity(quantity);
-                    },
+                  : (quantity) => ref.read(addToCartControllerProvider.notifier).updateQuantity(quantity),
             ),
           ],
         ),
@@ -49,11 +49,10 @@ class AddToCartWidget extends ConsumerWidget {
         const Divider(),
         gapH8,
         PrimaryButton(
-          // TODO: Loading state
           isLoading: state.isLoading,
-          // TODO: Implement onPressed
-          onPressed: () =>
-              product.availableQuantity > 0 ? ref.read(addToCartControllerProvider.notifier).addItem(product.id) : null,
+          // only enable the button if there is enough stock
+          onPressed:
+              availableQuantity > 0 ? () => ref.read(addToCartControllerProvider.notifier).addItem(product.id) : null,
           text: availableQuantity > 0 ? 'Add to Cart'.hardcoded : 'Out of Stock'.hardcoded,
         ),
         if (product.availableQuantity > 0 && availableQuantity == 0) ...[
