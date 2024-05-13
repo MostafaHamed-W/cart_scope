@@ -37,5 +37,34 @@ void main() {
         );
       },
     );
+
+    test(
+      'item added with quantity = 2, sucess',
+      () async {
+        // Setup
+        const quantity = 2;
+        const item = Item(productId: productId, quantity: quantity);
+        final cartService = MockCartService();
+        when(() => cartService.addItem(item)).thenThrow((_) => Exception('Connection Failed'));
+
+        // Run & Verify
+        final controller = AddToCartController(cartService: cartService);
+        expect(controller.state, const AsyncData(1));
+        controller.updateQuantity(quantity);
+        expect(controller.state, const AsyncData(2));
+
+        await controller.addItem(productId);
+        verify(() => cartService.addItem(item)).called(1);
+
+        // check that quantity goes back to 1 after adding an item
+        expect(
+          controller.state,
+          predicate<AsyncValue<int>>((value) {
+            expect(value.hasError, true);
+            return true;
+          }),
+        );
+      },
+    );
   });
 }
