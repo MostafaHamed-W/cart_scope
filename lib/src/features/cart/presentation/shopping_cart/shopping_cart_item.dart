@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shoppingCartItemController.dart';
 import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/currency_formatter.dart';
@@ -72,8 +73,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted =
-        ref.watch(currencyFormatterProvider).format(product.price);
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -124,6 +124,7 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(shoppingCartItemContollerProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -131,18 +132,18 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
           quantity: item.quantity,
           maxQuantity: min(product.availableQuantity, 10),
           itemIndex: itemIndex,
-          // TODO: Implement onChanged
-          onChanged: (value) {
-            showNotImplementedAlertDialog(context: context);
-          },
+          onChanged: state.isLoading
+              ? null
+              : (quantity) {
+                  ref.read(shoppingCartItemContollerProvider.notifier).updateCartItem(item.productId, quantity);
+                },
         ),
         IconButton(
           key: deleteKey(itemIndex),
           icon: Icon(Icons.delete, color: Colors.red[700]),
-          // TODO: Implement onPressed
-          onPressed: () {
-            showNotImplementedAlertDialog(context: context);
-          },
+          onPressed: state.isLoading
+              ? null
+              : () => ref.read(shoppingCartItemContollerProvider.notifier).removeCartItem(item.productId),
         ),
         const Spacer(),
       ],

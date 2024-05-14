@@ -20,7 +20,7 @@ class ShoppingCartScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: error handling
     // TODO: Read from data source
-    final cartValue = ref.read(cartProvider);
+    final cartValue = ref.watch(cartProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Cart'.hardcoded),
