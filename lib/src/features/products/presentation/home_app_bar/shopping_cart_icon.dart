@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/features/cart/application/cart_service.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/constants/app_sizes.dart';
@@ -13,8 +14,11 @@ class ShoppingCartIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read from data source
-    const cartItemsCount = 3;
+    final cart = ref.watch(cartProvider);
+    final cartItemsCount = cart.maybeWhen(
+      data: (cart) => cart.items.length,
+      orElse: () => 0,
+    );
     return Stack(
       children: [
         Center(
@@ -25,7 +29,7 @@ class ShoppingCartIcon extends ConsumerWidget {
           ),
         ),
         if (cartItemsCount > 0)
-          const Positioned(
+          Positioned(
             top: Sizes.p4,
             right: Sizes.p4,
             child: ShoppingCartIconBadge(itemsCount: cartItemsCount),
@@ -57,10 +61,7 @@ class ShoppingCartIconBadge extends StatelessWidget {
           // * textScaleFactor. This is to prevent the text from growing bigger
           // * than the available space.
           textScaleFactor: 1.0,
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
         ),
       ),
     );

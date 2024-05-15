@@ -25,7 +25,6 @@ class AddToCartWidget extends ConsumerWidget {
     );
     final availableQuantity = product.availableQuantity;
     final state = ref.watch(addToCartControllerProvider);
-    print(state.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

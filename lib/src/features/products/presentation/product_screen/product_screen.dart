@@ -59,8 +59,7 @@ class ProductDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted =
-        ref.watch(currencyFormatterProvider).format(product.price);
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startContent: Card(
         child: Padding(
@@ -86,8 +85,7 @@ class ProductDetails extends ConsumerWidget {
               gapH8,
               const Divider(),
               gapH8,
-              Text(priceFormatted,
-                  style: Theme.of(context).textTheme.headline5),
+              Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
               gapH8,
               LeaveReviewAction(productId: product.id),
               const Divider(),

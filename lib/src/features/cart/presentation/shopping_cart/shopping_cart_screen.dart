@@ -1,11 +1,13 @@
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
 import 'package:cart_scope/src/features/cart/application/cart_service.dart';
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shoppingCartItemController.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
+import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,10 @@ class ShoppingCartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: error handling
+    ref.listen(
+      shoppingCartItemContollerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     // TODO: Read from data source
     final cartValue = ref.watch(cartProvider);
     return Scaffold(

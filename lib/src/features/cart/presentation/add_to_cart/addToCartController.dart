@@ -23,7 +23,6 @@ class AddToCartController extends StateNotifier<AsyncValue<int>> {
   }
 }
 
-// TODO: Should this use autoDispose?
 final addToCartControllerProvider = StateNotifierProvider.autoDispose<AddToCartController, AsyncValue<int>>((ref) {
   return AddToCartController(
     cartService: ref.watch(cartServiceProvider),
