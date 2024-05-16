@@ -6,6 +6,7 @@ import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/cart/domain/mutable_cart.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sembast/sembast.dart';
 
 class CartService {
   Ref ref;
@@ -63,4 +64,12 @@ final cartProvider = StreamProvider<Cart>((ref) {
   } else {
     return ref.read(localCartRepositoryProvider).watchCart();
   }
+});
+
+final shoppingCartIconProvider = Provider<int>((ref) {
+  final cart = ref.watch(cartProvider);
+  return cart.maybeMap(
+    data: (cart) => cart.value.items.length,
+    orElse: () => 0,
+  );
 });
