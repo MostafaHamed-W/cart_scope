@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/cart/presentation/add_to_cart/addToCartController.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

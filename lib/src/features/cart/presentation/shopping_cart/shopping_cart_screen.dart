@@ -5,7 +5,6 @@ import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
-import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';

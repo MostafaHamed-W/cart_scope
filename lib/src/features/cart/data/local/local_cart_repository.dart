@@ -1,4 +1,3 @@
-import 'package:cart_scope/src/features/cart/data/local/sembast_cart_rebository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
 

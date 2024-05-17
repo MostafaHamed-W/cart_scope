@@ -36,7 +36,7 @@ class LeaveReviewAction extends ConsumerWidget {
             startContent: Text('Purchased on $dateFormatted'.hardcoded),
             endContent: CustomTextButton(
               text: 'Leave a review'.hardcoded,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.green[700]),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
               onPressed: () => context.goNamed(
                 AppRoute.leaveReview.name,
                 pathParameters: {'id': productId},

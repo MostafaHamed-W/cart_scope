@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/features/cart/presentation/add_to_cart/addToCartController.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/async_value_ui.dart';
@@ -58,7 +57,7 @@ class AddToCartWidget extends ConsumerWidget {
           gapH8,
           Text(
             'Already added to cart'.hardcoded,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),
         ]

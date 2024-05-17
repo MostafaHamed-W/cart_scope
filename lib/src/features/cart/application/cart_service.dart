@@ -6,7 +6,6 @@ import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/cart/domain/mutable_cart.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sembast/sembast.dart';
 
 class CartService {
   Ref ref;

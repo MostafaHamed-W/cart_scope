@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shoppingCartItemController.dart';
 import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
@@ -83,9 +82,9 @@ class ShoppingCartItemContents extends ConsumerWidget {
       endContent: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(product.title, style: Theme.of(context).textTheme.headline5),
+          Text(product.title, style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
-          Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
+          Text(priceFormatted, style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
           isEditable
               // show the quantity selector and a delete button

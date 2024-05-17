@@ -30,8 +30,7 @@ class GoldenRobot {
       ),
     );
 
-    final bytes =
-        Future<ByteData>.value(iconFont.readAsBytesSync().buffer.asByteData());
+    final bytes = Future<ByteData>.value(iconFont.readAsBytesSync().buffer.asByteData());
 
     final fontLoader = FontLoader('MaterialIcons')..addFont(bytes);
     await fontLoader.load();
@@ -64,7 +63,7 @@ class GoldenRobot {
   /// Useful for generating golden image tests of different sizes
   Future<void> setSurfaceSize(Size size) async {
     await tester.binding.setSurfaceSize(size);
-    tester.binding.window.physicalSizeTestValue = size;
-    tester.binding.window.devicePixelRatioTestValue = 1.0;
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1.0;
   }
 }
