@@ -42,10 +42,8 @@ class OrderHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalFormatted =
-        ref.watch(currencyFormatterProvider).format(order.total);
-    final dateFormatted =
-        ref.watch(dateFormatterProvider).format(order.orderDate);
+    final totalFormatted = ref.watch(currencyFormatterProvider).format(order.total);
+    final dateFormatted = ref.watch(dateFormatterProvider).format(order.orderDate);
     return Container(
       color: Colors.grey[200],
       padding: const EdgeInsets.all(Sizes.p16),
@@ -59,7 +57,7 @@ class OrderHeader extends ConsumerWidget {
                 children: [
                   Text(
                     'Order placed'.hardcoded.toUpperCase(),
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   gapH4,
                   Text(dateFormatted),
@@ -71,7 +69,7 @@ class OrderHeader extends ConsumerWidget {
                   Text(
                     'Total'.hardcoded.toUpperCase(),
                     textAlign: TextAlign.end,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   gapH4,
                   Text(totalFormatted),

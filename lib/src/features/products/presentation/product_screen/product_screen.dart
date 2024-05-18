@@ -74,7 +74,7 @@ class ProductDetails extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(product.title, style: Theme.of(context).textTheme.headline6),
+              Text(product.title, style: Theme.of(context).textTheme.titleLarge),
               gapH8,
               Text(product.description),
               // Only show average if there is at least one rating
@@ -85,7 +85,7 @@ class ProductDetails extends ConsumerWidget {
               gapH8,
               const Divider(),
               gapH8,
-              Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
+              Text(priceFormatted, style: Theme.of(context).textTheme.headlineSmall),
               gapH8,
               LeaveReviewAction(productId: product.id),
               const Divider(),

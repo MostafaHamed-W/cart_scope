@@ -6,8 +6,7 @@ class ProductsSearchTextField extends StatefulWidget {
   const ProductsSearchTextField({super.key});
 
   @override
-  State<ProductsSearchTextField> createState() =>
-      _ProductsSearchTextFieldState();
+  State<ProductsSearchTextField> createState() => _ProductsSearchTextFieldState();
 }
 
 class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
@@ -31,7 +30,7 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
         return TextField(
           controller: _controller,
           autofocus: false,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
           decoration: InputDecoration(
             hintText: 'Search products'.hardcoded,
             icon: const Icon(Icons.search),

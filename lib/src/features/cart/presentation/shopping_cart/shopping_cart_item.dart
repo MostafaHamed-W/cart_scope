@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
-import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shoppingCartItemController.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item_controller.dart';
 import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/currency_formatter.dart';

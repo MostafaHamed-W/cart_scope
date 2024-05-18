@@ -19,35 +19,31 @@ class LeaveReviewAction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: Read from data source
     final purchase = Purchase(orderId: 'abc', orderDate: DateTime.now());
-    if (purchase != null) {
-      final dateFormatted = ref.watch(dateFormatterProvider).format(purchase.orderDate);
-      return Column(
-        children: [
-          const Divider(),
-          gapH8,
-          ResponsiveTwoColumnLayout(
-            spacing: Sizes.p16,
-            breakpoint: 300,
-            startFlex: 3,
-            endFlex: 2,
-            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-            rowCrossAxisAlignment: CrossAxisAlignment.center,
-            columnCrossAxisAlignment: CrossAxisAlignment.center,
-            startContent: Text('Purchased on $dateFormatted'.hardcoded),
-            endContent: CustomTextButton(
-              text: 'Leave a review'.hardcoded,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
-              onPressed: () => context.goNamed(
-                AppRoute.leaveReview.name,
-                pathParameters: {'id': productId},
-              ),
+    final dateFormatted = ref.watch(dateFormatterProvider).format(purchase.orderDate);
+    return Column(
+      children: [
+        const Divider(),
+        gapH8,
+        ResponsiveTwoColumnLayout(
+          spacing: Sizes.p16,
+          breakpoint: 300,
+          startFlex: 3,
+          endFlex: 2,
+          rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+          rowCrossAxisAlignment: CrossAxisAlignment.center,
+          columnCrossAxisAlignment: CrossAxisAlignment.center,
+          startContent: Text('Purchased on $dateFormatted'.hardcoded),
+          endContent: CustomTextButton(
+            text: 'Leave a review'.hardcoded,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
+            onPressed: () => context.goNamed(
+              AppRoute.leaveReview.name,
+              pathParameters: {'id': productId},
             ),
           ),
-          gapH8,
-        ],
-      );
-    } else {
-      return const SizedBox();
-    }
+        ),
+        gapH8,
+      ],
+    );
   }
 }

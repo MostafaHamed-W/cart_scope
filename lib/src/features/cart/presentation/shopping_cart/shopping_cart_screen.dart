@@ -1,7 +1,7 @@
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
 import 'package:cart_scope/src/features/cart/application/cart_service.dart';
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
-import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shoppingCartItemController.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item_controller.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';

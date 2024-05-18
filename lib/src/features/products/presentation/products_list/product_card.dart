@@ -18,8 +18,7 @@ class ProductCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted =
-        ref.watch(currencyFormatterProvider).format(product.price);
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return Card(
       child: InkWell(
         key: productCardKey,
@@ -33,20 +32,19 @@ class ProductCard extends ConsumerWidget {
               gapH8,
               const Divider(),
               gapH8,
-              Text(product.title, style: Theme.of(context).textTheme.headline6),
+              Text(product.title, style: Theme.of(context).textTheme.titleLarge),
               if (product.numRatings >= 1) ...[
                 gapH8,
                 ProductAverageRating(product: product),
               ],
               gapH24,
-              Text(priceFormatted,
-                  style: Theme.of(context).textTheme.headline5),
+              Text(priceFormatted, style: Theme.of(context).textTheme.headlineSmall),
               gapH4,
               Text(
                 product.availableQuantity <= 0
                     ? 'Out of Stock'.hardcoded
                     : 'Quantity: ${product.availableQuantity}'.hardcoded,
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               )
             ],
           ),

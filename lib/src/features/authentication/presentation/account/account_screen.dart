@@ -22,9 +22,7 @@ class AccountScreen extends ConsumerWidget {
     final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: state.isLoading
-            ? const CircularProgressIndicator()
-            : Text('Account'.hardcoded),
+        title: state.isLoading ? const CircularProgressIndicator() : Text('Account'.hardcoded),
         actions: [
           ActionTextButton(
             text: 'Logout'.hardcoded,
@@ -38,9 +36,7 @@ class AccountScreen extends ConsumerWidget {
                       defaultActionText: 'Logout'.hardcoded,
                     );
                     if (logout == true) {
-                      ref
-                          .read(accountScreenControllerProvider.notifier)
-                          .signOut();
+                      ref.read(accountScreenControllerProvider.notifier).signOut();
                     }
                   },
           ),
@@ -60,7 +56,7 @@ class UserDataTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final style = Theme.of(context).textTheme.subtitle2!;
+    final style = Theme.of(context).textTheme.titleSmall!;
     final user = ref.watch(authStateChangesProvider).value;
     return DataTable(
       columns: [

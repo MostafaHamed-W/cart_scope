@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:cart_scope/src/features/cart/presentation/add_to_cart/addToCartController.dart';
+import 'package:cart_scope/src/features/cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
