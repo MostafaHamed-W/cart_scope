@@ -19,6 +19,6 @@ class CartSyncService {
   }
 }
 
-final cartSyncProvider = Provider<CartSyncService>((ref) {
+final cartSyncServiceProvider = Provider<CartSyncService>((ref) {
   return CartSyncService(ref);
 });

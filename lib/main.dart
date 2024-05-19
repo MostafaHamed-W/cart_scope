@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:cart_scope/src/app.dart';
+import 'package:cart_scope/src/features/cart/application/cart_service.dart';
+import 'package:cart_scope/src/features/cart/application/cart_sync_service.dart';
 import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:cart_scope/src/features/cart/data/local/sembast_cart_rebository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
@@ -20,11 +22,17 @@ void main() async {
   // Override local cart provider before run app
   final localCartRepository = await SembastCartRepository.makeDefault();
 
+  // Create container provider with any required overrides
+  final container = ProviderContainer(overrides: [
+    localCartRepositoryProvider.overrideWithValue(localCartRepository),
+  ]);
+
+  // Initialize cartSyncService to start the listener
+  container.read(cartSyncServiceProvider);
+
   runApp(
-    ProviderScope(
-      overrides: [
-        localCartRepositoryProvider.overrideWithValue(localCartRepository),
-      ],
+    UncontrolledProviderScope(
+      container: container,
       child: const CartScope(),
     ),
   );
