@@ -26,6 +26,7 @@ class ShoppingCartScreen extends ConsumerWidget {
     );
     // TODO: Read from data source
     final cartValue = ref.watch(cartProvider);
+    print(cartValue.value?.items.entries.first.value);
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Cart'.hardcoded),

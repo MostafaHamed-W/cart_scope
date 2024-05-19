@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
@@ -18,6 +17,7 @@ class CartService {
 
   Future<Cart> _fetchCart() {
     final user = ref.read(authRepositoryProvider).currentUser;
+    print('user in fetc = $user');
     if (user != null) {
       return ref.read(remoteCartRepositoryProvider).fetchCart(user.uid);
     } else {
@@ -61,7 +61,8 @@ final cartServiceProvider = Provider<CartService>((ref) {
 });
 
 final cartProvider = StreamProvider<Cart>((ref) {
-  final user = ref.read(authRepositoryProvider).currentUser;
+  final user = ref.watch(authStateChangesProvider).value;
+  print('user in cart stream provider = $user');
   if (user != null) {
     return ref.read(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {

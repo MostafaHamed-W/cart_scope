@@ -16,8 +16,7 @@ class FakeAuthRepository {
     _createNewUser(email);
   }
 
-  Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> createUserWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
     _createNewUser(email);
   }
@@ -42,7 +41,7 @@ final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
   return auth;
 });
 
-final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
+final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });
