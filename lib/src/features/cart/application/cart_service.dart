@@ -4,6 +4,7 @@ import 'package:cart_scope/src/features/cart/data/remote/remote_cart_repository.
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/cart/domain/mutable_cart.dart';
+import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,4 +72,19 @@ final shoppingCartIconProvider = Provider<int>((ref) {
     data: (cart) => cart.value.items.length,
     orElse: () => 0,
   );
+});
+
+final cartTotalPrices = Provider.autoDispose<double>((ref) {
+  final cart = ref.watch(cartProvider).value ?? const Cart();
+  final productList = ref.watch(productsListStreamProvider).value ?? [];
+  if (cart.items.isNotEmpty && productList.isNotEmpty) {
+    double total = 0.0;
+    for (var item in cart.items.entries) {
+      final product = productList.firstWhere((product) => product.id == item.key);
+      total += product.price * item.value;
+    }
+    return total;
+  } else {
+    return 0.0;
+  }
 });
