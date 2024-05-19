@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:cart_scope/src/features/cart/data/remote/remote_cart_repository.dart';
@@ -86,5 +89,18 @@ final cartTotalPrices = Provider.autoDispose<double>((ref) {
     return total;
   } else {
     return 0.0;
+  }
+});
+
+final itemAvailableQuantityProvider = Provider.family.autoDispose<int, Product>((ref, product) {
+  final cart = ref.watch(cartProvider).value;
+
+  if (cart != null) {
+    // Get the current product quantity for the given product in cart
+    final quantity = cart.items[product.id] ?? 0;
+    // Subtract it from the available product quantity
+    return max(0, product.availableQuantity - quantity);
+  } else {
+    return product.availableQuantity;
   }
 });
