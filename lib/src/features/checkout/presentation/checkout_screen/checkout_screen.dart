@@ -1,8 +1,10 @@
+import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:cart_scope/src/features/checkout/presentation/payment/payment_page.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The two sub-routes that are presented as part of the checkout flow.
 enum CheckoutSubRoute { register, payment }
@@ -11,18 +13,30 @@ enum CheckoutSubRoute { register, payment }
 /// 1. Register page
 /// 2. Payment page
 /// TODO: Show the correct page based on whether the user is signed in.
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _controller = PageController();
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+  late PageController _controller;
 
   var _subRoute = CheckoutSubRoute.register;
   // TODO: Load the correct initial page when this screen is presented
+
+  @override
+  void initState() {
+    super.initState();
+    final user = ref.read(authRepositoryProvider).currentUser;
+    if (user != null) {
+      setState(() {
+        _subRoute = CheckoutSubRoute.payment;
+      });
+    }
+    _controller = PageController(initialPage: _subRoute.index);
+  }
 
   @override
   void dispose() {
@@ -51,7 +65,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       appBar: AppBar(title: Text(title)),
       body: PageView(
         // * disable swiping between pages
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
         children: [
           EmailPasswordSignInContents(
