@@ -4,9 +4,10 @@ import 'package:cart_scope/src/features/cart/domain/cart.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:cart_scope/src/features/checkout/presentation/payment/payment_button.dart';
-import 'package:cart_scope/src/features/cart/domain/item.dart';
+import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Payment screen showing the items in the cart (with read-only quantities) and
 /// a button to checkout.
@@ -15,10 +16,15 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //  Listen to cart changes on checkout and update the UI.
-    //  Read from data source
-    final cartValue = ref.read(cartProvider);
-
+    ref.listen<double>(cartTotalPrices, (_, cartTotal) {
+      // If the cart total becomes 0, it means that the order has been fullfilled
+      // because all the items have been removed from the cart.
+      // So we should go to the orders page.
+      if (cartTotal == 0.0) {
+        context.goNamed(AppRoute.orders.name);
+      }
+    });
+    final cartValue = ref.watch(cartProvider);
     return AsyncValueWidget<Cart>(
       value: cartValue,
       data: (cart) {
