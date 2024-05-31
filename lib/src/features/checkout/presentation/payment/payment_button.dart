@@ -14,11 +14,11 @@ class PaymentButton extends ConsumerWidget {
     // Error handling
     ref.listen<AsyncValue>(paymentButtonControllerProvider, (_, state) => state.showAlertDialogOnError(context));
     // Loading state
-    final state = ref.read(paymentButtonControllerProvider);
+    final state = ref.watch(paymentButtonControllerProvider);
     return PrimaryButton(
       text: 'Pay'.hardcoded,
       isLoading: state.isLoading,
-      onPressed: () => state.isLoading ? null : ref.read(paymentButtonControllerProvider.notifier).pay(),
+      onPressed: state.isLoading ? null : () => ref.read(paymentButtonControllerProvider.notifier).pay(),
     );
   }
 }
