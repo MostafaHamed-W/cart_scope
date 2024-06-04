@@ -52,7 +52,7 @@ class CartService {
 
   /// removes an item from the local or remote cart depending on the user auth
   /// state
-  Future<void> removeItem(ProductID productId) async {
+  Future<void> removeItemById(ProductID productId) async {
     final cart = await _fetchCart();
     final updated = cart.removeItemById(productId);
     await _setCart(updated);
@@ -79,7 +79,7 @@ final cartItemsCountProvider = Provider<int>((ref) {
       );
 });
 
-final cartTotalPrices = Provider.autoDispose<double>((ref) {
+final cartTotalProvider = Provider.autoDispose<double>((ref) {
   final cart = ref.watch(cartProvider).value ?? const Cart();
   final productsList = ref.watch(productsListStreamProvider).value ?? [];
   if (cart.items.isNotEmpty && productsList.isNotEmpty) {

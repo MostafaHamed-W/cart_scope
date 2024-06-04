@@ -1,28 +1,27 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:cart_scope/src/features/cart/data/remote/remote_cart_repository.dart';
 import 'package:cart_scope/src/features/cart/domain/cart.dart';
 import 'package:cart_scope/src/features/cart/domain/item.dart';
 import 'package:cart_scope/src/features/cart/domain/mutable_cart.dart';
 import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartSyncService {
-  Ref ref;
   CartSyncService(this.ref) {
     _init();
   }
+  final Ref ref;
 
-  _init() {
-    ref.listen(authStateChangesProvider, (previous, next) {
+  void _init() {
+    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider, (previous, next) {
       final previousUser = previous?.value;
-      final currentUser = next.value;
-      if (previousUser == null && currentUser != null) {
-        debugPrint('user state changed with ${next.value?.uid}');
-        _moveItemsToRemoteCart(currentUser.uid);
+      final user = next.value;
+      if (previousUser == null && user != null) {
+        _moveItemsToRemoteCart(user.uid);
       }
     });
   }

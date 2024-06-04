@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
-import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_item_controller.dart';
+import 'package:cart_scope/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
 import 'package:cart_scope/src/features/products/data/fake_products_repository.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/currency_formatter.dart';
@@ -123,7 +123,7 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(shoppingCartItemContollerProvider);
+    final state = ref.watch(shoppingCartScreenControllerProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -133,16 +133,15 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
           itemIndex: itemIndex,
           onChanged: state.isLoading
               ? null
-              : (quantity) {
-                  ref.read(shoppingCartItemContollerProvider.notifier).updateCartItem(item.productId, quantity);
-                },
+              : (quantity) =>
+                  ref.read(shoppingCartScreenControllerProvider.notifier).updateItemQuantity(item.productId, quantity),
         ),
         IconButton(
           key: deleteKey(itemIndex),
           icon: Icon(Icons.delete, color: Colors.red[700]),
           onPressed: state.isLoading
               ? null
-              : () => ref.read(shoppingCartItemContollerProvider.notifier).removeCartItem(item.productId),
+              : () => ref.read(shoppingCartScreenControllerProvider.notifier).removeItemById(item.productId),
         ),
         const Spacer(),
       ],
