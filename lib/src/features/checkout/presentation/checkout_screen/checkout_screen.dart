@@ -12,7 +12,6 @@ enum CheckoutSubRoute { register, payment }
 /// This is the root widget of the checkout flow, which is composed of 2 pages:
 /// 1. Register page
 /// 2. Payment page
-/// TODO: Show the correct page based on whether the user is signed in.
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -21,19 +20,16 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 }
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
-  late PageController _controller;
+  late final PageController _controller;
 
   var _subRoute = CheckoutSubRoute.register;
-  // TODO: Load the correct initial page when this screen is presented
 
   @override
   void initState() {
     super.initState();
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
-      setState(() {
-        _subRoute = CheckoutSubRoute.payment;
-      });
+      setState(() => _subRoute = CheckoutSubRoute.payment);
     }
     _controller = PageController(initialPage: _subRoute.index);
   }
@@ -65,7 +61,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       appBar: AppBar(title: Text(title)),
       body: PageView(
         // * disable swiping between pages
-        // physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
         children: [
           EmailPasswordSignInContents(

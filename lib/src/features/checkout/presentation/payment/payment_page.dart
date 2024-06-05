@@ -16,7 +16,7 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<double>(cartTotalPrices, (_, cartTotal) {
+    ref.listen<double>(cartTotalProvider, (_, cartTotal) {
       // If the cart total becomes 0, it means that the order has been fullfilled
       // because all the items have been removed from the cart.
       // So we should go to the orders page.
