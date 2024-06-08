@@ -173,7 +173,7 @@ void main() {
       controller.updateFormType(EmailPasswordSignInFormType.register);
       // verify
       expect(
-        controller.state,
+        controller.debugState,
         EmailPasswordSignInState(
           formType: EmailPasswordSignInFormType.register,
           value: const AsyncData<void>(null),
@@ -196,7 +196,7 @@ void main() {
       controller.updateFormType(EmailPasswordSignInFormType.signIn);
       // verify
       expect(
-        controller.state,
+        controller.debugState,
         EmailPasswordSignInState(
           formType: EmailPasswordSignInFormType.signIn,
           value: const AsyncData<void>(null),

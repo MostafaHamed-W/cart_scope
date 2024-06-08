@@ -8,61 +8,66 @@ import '../../../../mocks.dart';
 
 void main() {
   const productId = '1';
-  group('Test AddToCartController Add Item', () {
-    test(
-      'item added with quantity = 2, sucess',
-      () async {
-        // Setup
-        const quantity = 2;
-        const item = Item(productId: productId, quantity: quantity);
-        final cartService = MockCartService();
-        when(() => cartService.addItem(item)).thenAnswer((_) => Future.value(null));
+  group('addItem', () {
+    test('item added with quantity = 2, success', () async {
+      // setup
+      const quantity = 2;
+      const item = Item(productId: productId, quantity: quantity);
+      final cartService = MockCartService();
+      when(() => cartService.addItem(item)).thenAnswer(
+        (_) => Future.value(null),
+      );
+      // run & verify
+      final controller = AddToCartController(cartService: cartService);
+      expect(
+        controller.debugState,
+        const AsyncData(1),
+      );
+      controller.updateQuantity(quantity);
+      expect(
+        controller.debugState,
+        const AsyncData(2),
+      );
+      // * if desired, use expectLater and emitsInOrder here to check that
+      // * addItems emits two values
+      await controller.addItem(productId);
+      verify(() => cartService.addItem(item)).called(1);
+      // check that quantity goes back to 1 after adding an item
+      expect(
+        controller.debugState,
+        const AsyncData(1),
+      );
+    });
 
-        // Run & Verify
-        final controller = AddToCartController(cartService: cartService);
-        expect(controller.state, const AsyncData(1));
-        controller.updateQuantity(quantity);
-        expect(controller.state, const AsyncData(2));
-
-        await controller.addItem(productId);
-        verify(() => cartService.addItem(item)).called(1);
-
-        // Ensure that quantity set back to 1 after calling addItem
-        // check that quantity goes back to 1 after adding an item
-        expect(
-          controller.state,
-          const AsyncData(1),
-        );
-      },
-    );
-
-    test(
-      'item added with quantity = 2, sucess',
-      () async {
-        // Setup
-        const quantity = 2;
-        const item = Item(productId: productId, quantity: quantity);
-        final cartService = MockCartService();
-        when(() => cartService.addItem(item)).thenThrow((_) => Exception('Connection Failed'));
-
-        // Run & Verify
-        final controller = AddToCartController(cartService: cartService);
-        expect(controller.state, const AsyncData(1));
-        controller.updateQuantity(quantity);
-        expect(controller.state, const AsyncData(2));
-
-        await controller.addItem(productId);
-        verify(() => cartService.addItem(item)).called(1);
-
-        // check that quantity goes back to 1 after adding an item
-        expect(
-          controller.state,
-          predicate<AsyncValue<int>>((value) {
+    test('item added with quantity = 2, failure', () async {
+      const quantity = 2;
+      const item = Item(productId: productId, quantity: quantity);
+      final cartService = MockCartService();
+      when(() => cartService.addItem(item)).thenThrow((_) => Exception('Connection failed'));
+      final controller = AddToCartController(cartService: cartService);
+      expect(
+        controller.debugState,
+        const AsyncData(1),
+      );
+      controller.updateQuantity(quantity);
+      expect(
+        controller.debugState,
+        const AsyncData(2),
+      );
+      // * if desired, use expectLater and emitsInOrder here to check that
+      // * addItems emits two values
+      await controller.addItem(productId);
+      verify(() => cartService.addItem(item)).called(1);
+      // check that quantity goes back to 1 after adding an item
+      expect(
+        controller.debugState,
+        predicate<AsyncValue<int>>(
+          (value) {
             expect(value.hasError, true);
             return true;
-          }),
-        );
-      },
-    );
+          },
+        ),
+      );
+    });
   });
 }
