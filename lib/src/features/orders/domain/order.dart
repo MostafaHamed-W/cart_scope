@@ -1,4 +1,4 @@
-import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/exceptions/app_exceptions.dart';
 
 /// Order status
 enum OrderStatus { confirmed, shipped, delivered }
@@ -9,7 +9,7 @@ extension OrderStatusString on OrderStatus {
     if (string == 'confirmed') return OrderStatus.confirmed;
     if (string == 'shipped') return OrderStatus.shipped;
     if (string == 'delivered') return OrderStatus.delivered;
-    throw Exception('Could not parse order status: $string'.hardcoded);
+    throw ParseOrderFailureException(string);
   }
 }
 
