@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/exceptions/app_exception.dart';
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +29,7 @@ void main() {
           testEmail,
           testPassword,
         ),
-        throwsA(isA<Exception>()),
+        throwsA(isA<AppException>()),
       );
       expect(authRepository.currentUser, null);
       expect(authRepository.authStateChanges(), emits(null));
