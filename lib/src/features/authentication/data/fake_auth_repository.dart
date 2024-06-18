@@ -1,3 +1,4 @@
+import 'package:cart_scope/src/exceptions/app_exception.dart';
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/features/authentication/domain/fake_app_user.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
@@ -27,10 +28,10 @@ class FakeAuthRepository {
       }
       // same email, wrong password
       if (u.email == email && u.password != password) {
-        throw Exception('Wrong password'.hardcoded);
+        throw const AppException.wrongPassword();
       }
     }
-    throw Exception('User not found'.hardcoded);
+    throw const AppException.userNotFound();
   }
 
   Future<void> createUserWithEmailAndPassword(String email, String password) async {
@@ -38,12 +39,12 @@ class FakeAuthRepository {
     // check if the email is already in use
     for (final u in _users) {
       if (u.email == email) {
-        throw Exception('Email already in use'.hardcoded);
+        throw const AppException.emailAlreadyInUse();
       }
     }
     // minimum password length requirement
     if (password.length < 8) {
-      throw Exception('Password is too weak'.hardcoded);
+      throw const AppException.weakPassword();
     }
     // create new user
     _createNewUser(email, password);
