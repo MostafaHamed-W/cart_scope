@@ -7,7 +7,7 @@ import 'package:cart_scope/src/features/cart/data/local/sembast_cart_repository.
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_web_plugins/url_strategy.dart';
+// import 'package:flutter_web_plugins/url_strate gy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
