@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:cart_scope/src/app.dart';
+import 'package:cart_scope/src/exceptions/async_error_logger.dart';
 import 'package:cart_scope/src/features/cart/application/cart_sync_service.dart';
 import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:cart_scope/src/features/cart/data/local/sembast_cart_repository.dart';
@@ -25,6 +26,8 @@ void main() async {
   // Create container provider with any required overrides
   final container = ProviderContainer(overrides: [
     localCartRepositoryProvider.overrideWithValue(localCartRepository),
+  ], observers: [
+    AsyncErrorLogger(),
   ]);
 
   // Initialize cartSyncService to start the listener
