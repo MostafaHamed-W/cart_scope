@@ -22,7 +22,7 @@ class AsyncErrorLogger extends ProviderObserver {
     }
   }
 
-  AsyncError? _findError(Object? value) {
+  AsyncError<dynamic>? _findError(Object? value) {
     if (value is EmailPasswordSignInState && value.value is AsyncError) {
       return value.value as AsyncError;
     } else if (value is AsyncError) {
