@@ -49,7 +49,6 @@ class LeaveReviewAction extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
               onPressed: () => context.goNamed(
                 AppRoute.leaveReview.name,
-                //TODO: Check this parameter name
                 pathParameters: {'id': productId},
               ),
             ),

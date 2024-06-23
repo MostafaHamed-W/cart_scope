@@ -1,8 +1,10 @@
 import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/constants/breakpoints.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:cart_scope/src/features/reviews/presentation/leave_review_screen/leave_review_controller.dart';
 import 'package:cart_scope/src/features/reviews/presentation/product_reviews/product_rating_bar.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
+import 'package:cart_scope/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_scope/src/common_widgets/responsive_center.dart';
 import 'package:cart_scope/src/common_widgets/primary_button.dart';
@@ -63,6 +65,11 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      leaveReviewControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(leaveReviewControllerProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -94,11 +101,14 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
         PrimaryButton(
           text: 'Submit'.hardcoded,
           // TODO: Loading state
-          isLoading: false,
-          onPressed: _rating == 0
+          isLoading: state.isLoading,
+          onPressed: () => state.isLoading || _rating == 0
               ? null
-              // TODO: submit review
-              : () => showNotImplementedAlertDialog(context: context),
+              : ref.read(leaveReviewControllerProvider.notifier).submitReview(
+                    productId: widget.productId,
+                    rating: _rating,
+                    comment: _controller.text,
+                  ),
         )
       ],
     );

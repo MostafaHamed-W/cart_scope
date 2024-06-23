@@ -25,7 +25,7 @@ void main() async {
   final container = ProviderContainer(overrides: [
     localCartRepositoryProvider.overrideWithValue(localCartRepository),
   ], observers: [
-    AsyncErrorLogger(),
+    AsyncErrorLogger()
   ]);
 
   // Initialize cartSyncService to start the listener

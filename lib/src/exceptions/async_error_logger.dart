@@ -3,10 +3,12 @@ import 'package:cart_scope/src/exceptions/error_logger.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Error logger class to keep track of all AsyncError states that are set
+/// by the controllers in the app
 class AsyncErrorLogger extends ProviderObserver {
   @override
   void didUpdateProvider(
-    ProviderBase<Object?> provider,
+    ProviderBase provider,
     Object? previousValue,
     Object? newValue,
     ProviderContainer container,
@@ -15,9 +17,11 @@ class AsyncErrorLogger extends ProviderObserver {
     final error = _findError(newValue);
     if (error != null) {
       if (error.error is AppException) {
+        // only prints the AppException data
         errorLogger.logAppException(error.error as AppException);
       } else {
-        errorLogger.logError(error, error.stackTrace);
+        // prints everything including the stack trace
+        errorLogger.logError(error.error, error.stackTrace);
       }
     }
   }
