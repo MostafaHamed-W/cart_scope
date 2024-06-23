@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cart_scope/src/exceptions/error_logger.dart';
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:cart_scope/src/features/authentication/domain/app_user.dart';
 import 'package:cart_scope/src/features/cart/data/local/local_cart_repository.dart';
@@ -45,8 +46,9 @@ class CartSyncService {
         // Remove all items from the local cart
         await localCartRepository.setCart(const Cart());
       }
-    } catch (e) {
-      // TODO: Handle error and/or rethrow
+    } catch (e, st) {
+      // Handle error and/or rethrow
+      ref.read(errorLoggerProvider).logError(e, st);
     }
   }
 
