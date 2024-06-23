@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:cart_scope/src/exceptions/app_exception.dart';
+import 'package:cart_scope/src/exceptions/error_logger.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,12 +11,13 @@ class AsyncErrorLogger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
+    final errorLogger = container.read(errorLoggerProvider);
     final error = _findError(newValue);
     if (error != null) {
       if (error.error is AppException) {
-        log(error.error.toString());
+        errorLogger.logAppException(error.error as AppException);
       } else {
-        log(error.toString());
+        errorLogger.logError(error, error.stackTrace);
       }
     }
   }
