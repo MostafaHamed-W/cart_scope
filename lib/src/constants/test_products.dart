@@ -9,8 +9,6 @@ const kTestProducts = [
     description: '16.1 inch Laptop gaming Computers 64GB DDR4 RamGTX 1650 4GB',
     price: 15,
     availableQuantity: 5,
-    avgRating: 4.5,
-    numRatings: 2,
   ),
   Product(
     id: '2',
@@ -19,8 +17,6 @@ const kTestProducts = [
     description: '2024 New Bracelet Cheap Price Smartwatch Wholesale Custom APP',
     price: 13,
     availableQuantity: 5,
-    avgRating: 4,
-    numRatings: 2,
   ),
   Product(
     id: '3',
@@ -29,8 +25,6 @@ const kTestProducts = [
     description: 'Wholesale Hiking Shoes Hiking Boots Leather Hunting Boots',
     price: 17,
     availableQuantity: 5,
-    avgRating: 5,
-    numRatings: 2,
   ),
   Product(
     id: '4',
