@@ -50,7 +50,7 @@ class LeaveReviewAction extends ConsumerWidget {
               onPressed: () => context.goNamed(
                 AppRoute.leaveReview.name,
                 //TODO: Check this parameter name
-                queryParameters: {'id': productId},
+                pathParameters: {'id': productId},
               ),
             ),
           ),
