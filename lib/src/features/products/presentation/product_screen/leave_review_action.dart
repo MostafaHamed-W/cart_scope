@@ -36,10 +36,11 @@ class LeaveReviewAction extends ConsumerWidget {
             columnCrossAxisAlignment: CrossAxisAlignment.center,
             startContent: Text('Purchased on $dateFormatted'.hardcoded),
             endContent: Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              builder: (context, ref, child) {
                 final reviewValue = ref.watch(userReviewStreamProvider(productId));
+
                 return CustomTextButton(
-                  text: reviewValue.value != null ? 'Update review'.hardcoded : 'Leave a review'.hardcoded,
+                  text: (reviewValue.value != null ? 'Update review' : 'Leave a review').hardcoded,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
                   onPressed: () => context.goNamed(
                     AppRoute.leaveReview.name,

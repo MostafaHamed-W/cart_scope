@@ -1,4 +1,3 @@
-import 'package:cart_scope/src/common_widgets/alert_dialogs.dart';
 import 'package:cart_scope/src/common_widgets/async_value_widget.dart';
 import 'package:cart_scope/src/constants/breakpoints.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
@@ -29,9 +28,9 @@ class LeaveReviewScreen extends StatelessWidget {
         maxContentWidth: Breakpoint.tablet,
         padding: const EdgeInsets.all(Sizes.p16),
         child: Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          builder: (context, ref, child) {
             final reviewValue = ref.watch(userReviewFutureProvider(productId));
-            return AsyncValueWidget(
+            return AsyncValueWidget<Review?>(
               value: reviewValue,
               data: (review) => LeaveReviewForm(productId: productId, review: review),
             );
@@ -114,14 +113,14 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
         PrimaryButton(
           text: 'Submit'.hardcoded,
           isLoading: state.isLoading,
-          onPressed: () => state.isLoading || _rating == 0
+          onPressed: state.isLoading || _rating == 0
               ? null
-              : ref.read(leaveReviewControllerProvider.notifier).submitReview(
+              : () => ref.read(leaveReviewControllerProvider.notifier).submitReview(
+                    previousReview: widget.review,
                     productId: widget.productId,
                     rating: _rating,
                     comment: _controller.text,
                     onSuccess: context.pop,
-                    previousReview: widget.review,
                   ),
         )
       ],
