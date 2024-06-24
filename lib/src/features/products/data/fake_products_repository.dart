@@ -23,7 +23,7 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProductsList() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await delay(addDelay);
     return Future.value(_products.value);
   }
 
@@ -92,14 +92,14 @@ final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref
 });
 
 final productListSerchProvider = FutureProvider.autoDispose.family<List<Product>, String>((ref, query) async {
-  final link = ref.keepAlive();
-  final timer = Timer(const Duration(seconds: 5), () {
-    link.close();
-  });
-  ref.onDispose(() {
-    timer.cancel();
-    debugPrint('disposed: $query');
-  });
+  // final link = ref.keepAlive();
+  // final timer = Timer(const Duration(seconds: 5), () {
+  //   link.close();
+  // });
+  // ref.onDispose(() {
+  //   timer.cancel();
+  //   debugPrint('disposed: $query');
+  // });
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);
 });
