@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:cart_scope/src/utils/delay.dart';
 import 'package:cart_scope/src/utils/in_memory_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
@@ -20,7 +23,7 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProductsList() async {
-    await delay(addDelay);
+    await Future.delayed(const Duration(milliseconds: 1500));
     return Future.value(_products.value);
   }
 
@@ -73,7 +76,6 @@ final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
   // * Set addDelay to false for faster loading
   return FakeProductsRepository(addDelay: false);
 });
-
 final productsListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.watchProductsList();
@@ -87,4 +89,17 @@ final productsListFutureProvider = FutureProvider.autoDispose<List<Product>>((re
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, id) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.watchProduct(id);
+});
+
+final productListSerchProvider = FutureProvider.autoDispose.family<List<Product>, String>((ref, query) async {
+  final link = ref.keepAlive();
+  final timer = Timer(const Duration(seconds: 5), () {
+    link.close();
+  });
+  ref.onDispose(() {
+    timer.cancel();
+    debugPrint('disposed: $query');
+  });
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.searchProducts(query);
 });
