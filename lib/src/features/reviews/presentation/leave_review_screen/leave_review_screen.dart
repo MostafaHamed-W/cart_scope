@@ -121,6 +121,7 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
                     rating: _rating,
                     comment: _controller.text,
                     onSuccess: context.pop,
+                    previousReview: widget.review,
                   ),
         )
       ],
