@@ -1,6 +1,7 @@
 import 'package:cart_scope/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import 'package:cart_scope/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+
 import 'package:cart_scope/src/features/checkout/presentation/payment/payment_page.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
