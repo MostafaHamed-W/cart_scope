@@ -1,5 +1,6 @@
-import 'package:cart_scope/src/features/orders/domain/order.dart';
+import 'package:cart_scope/src/features/orders/application/user_order_provider.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
+import 'package:cart_scope/src/features/reviews/application/reviews_service.dart';
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/routing/app_router.dart';
 import 'package:cart_scope/src/utils/date_formatter.dart';
@@ -18,18 +19,8 @@ class LeaveReviewAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read from data source
-    final orders = [
-      Order(
-        id: 'abc',
-        userId: '123',
-        items: {productId: 1},
-        orderStatus: OrderStatus.confirmed,
-        orderDate: DateTime.now(),
-        total: 15.0,
-      )
-    ];
-    if (orders.isNotEmpty) {
+    final orders = ref.watch(matchingUserOrdersProvider(productId)).value;
+    if (orders != null && orders.isNotEmpty) {
       final dateFormatted = ref.watch(dateFormatterProvider).format(orders.first.orderDate);
       return Column(
         children: [
@@ -44,13 +35,18 @@ class LeaveReviewAction extends ConsumerWidget {
             rowCrossAxisAlignment: CrossAxisAlignment.center,
             columnCrossAxisAlignment: CrossAxisAlignment.center,
             startContent: Text('Purchased on $dateFormatted'.hardcoded),
-            endContent: CustomTextButton(
-              text: 'Leave a review'.hardcoded,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
-              onPressed: () => context.goNamed(
-                AppRoute.leaveReview.name,
-                pathParameters: {'id': productId},
-              ),
+            endContent: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                final reviewValue = ref.watch(userReviewStreamProvider(productId));
+                return CustomTextButton(
+                  text: reviewValue.value != null ? 'Update review'.hardcoded : 'Leave a review'.hardcoded,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
+                  onPressed: () => context.goNamed(
+                    AppRoute.leaveReview.name,
+                    pathParameters: {'id': productId},
+                  ),
+                );
+              },
             ),
           ),
           gapH8,
