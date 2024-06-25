@@ -7,6 +7,8 @@ import 'package:cart_scope/src/features/products/data/fake_products_repository.d
 import 'package:cart_scope/src/localization/string_hardcoded.dart';
 import 'package:cart_scope/src/utils/current_date_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'fake_checkout_service.g.dart';
 
 /// A fake checkout service that doesn't process real payments.
 class FakeCheckoutService {
@@ -69,6 +71,7 @@ class FakeCheckoutService {
   }
 }
 
-final checkoutServiceProvider = Provider<FakeCheckoutService>((ref) {
+@Riverpod(keepAlive: true)
+FakeCheckoutService checkoutService(CheckoutServiceRef ref) {
   return FakeCheckoutService(ref);
-});
+}
