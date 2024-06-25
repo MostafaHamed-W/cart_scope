@@ -4,8 +4,9 @@ import 'package:cart_scope/src/constants/test_products.dart';
 import 'package:cart_scope/src/features/products/domain/product.dart';
 import 'package:cart_scope/src/utils/delay.dart';
 import 'package:cart_scope/src/utils/in_memory_store.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'fake_products_repository.g.dart';
 
 class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
@@ -72,34 +73,32 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
+@Riverpod(keepAlive: true)
+FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
   // * Set addDelay to false for faster loading
   return FakeProductsRepository(addDelay: false);
-});
-final productsListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
+}
+
+@riverpod
+Stream<List<Product>> productsListStream(ProductsListStreamRef ref) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.watchProductsList();
-});
+}
 
-final productsListFutureProvider = FutureProvider.autoDispose<List<Product>>((ref) {
+@riverpod
+Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.fetchProductsList();
-});
+}
 
-final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, id) {
+@riverpod
+Stream<Product?> product(ProductRef ref, String id) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.watchProduct(id);
-});
+}
 
-final productListSerchProvider = FutureProvider.autoDispose.family<List<Product>, String>((ref, query) async {
-  // final link = ref.keepAlive();
-  // final timer = Timer(const Duration(seconds: 5), () {
-  //   link.close();
-  // });
-  // ref.onDispose(() {
-  //   timer.cancel();
-  //   debugPrint('disposed: $query');
-  // });
+@riverpod
+Future<List<Product>> productListSerch(ProductListSerchRef ref, String query) async {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);
-});
+}
